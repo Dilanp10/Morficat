@@ -37,7 +37,7 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
-const themeInitScript = `(function(){try{var t=localStorage.getItem('morficat-theme');var s=window.matchMedia('(prefers-color-scheme: dark)').matches;var d=t==='dark'||((t==='auto'||!t)&&s);if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
+const themeInitScript = `(function(){try{var t=localStorage.getItem('morficat-theme');var d=t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
 
 export default function RootLayout({
   children,

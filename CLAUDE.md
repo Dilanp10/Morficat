@@ -569,7 +569,7 @@ Pantalla completa con:
 |---|---|
 | **Estilo** | Cálido, gastronómico, dark mode |
 | **Inspiración** | Restaurante con iluminación cálida de noche |
-| **Modo** | Dark mode + Light mode con toggle (claro / oscuro / auto) en `/mas` |
+| **Modo** | Dark mode + Light mode con toggle (claro / oscuro) en `/mas`. Default en 1ª visita = preferencia del sistema (`prefers-color-scheme`) |
 
 ### 10.2 Paleta de colores
 
@@ -599,7 +599,7 @@ Botones con `bg-terracota` siempre usan `text-white` (no `text-foreground`) para
 
 ### 10.3 Reglas de diseño
 
-1. **Dark + Light mode** — implementados con tokens semánticos vía CSS variables (`--background`, `--foreground`, `--card`, `--muted`). El usuario alterna desde `/mas` (claro / oscuro / auto, default auto = sigue preferencia del sistema). La preferencia persiste en `localStorage` (`morficat-theme`). Inline script en `<head>` previene FOUC.
+1. **Dark + Light mode** — implementados con tokens semánticos vía CSS variables (`--background`, `--foreground`, `--card`, `--muted`). El usuario alterna desde `/mas` (claro / oscuro). En la primera visita el default es la preferencia del sistema (`prefers-color-scheme`); después se respeta la elección guardada en `localStorage` (`morficat-theme`). Inline script en `<head>` previene FOUC.
 2. **Color principal terracota** (`#E07B4C`) en todos los elementos interactivos, igual en ambos modos (es identidad de marca).
 3. **Fondos cálidos en ambos modos** — dark `#1A1A1A` (warm dark), light `#FAFAF8` (warm off-white). Nunca negro puro `#000` ni blanco puro `#FFF`.
 4. **Tipografía**: system fonts (`-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`).

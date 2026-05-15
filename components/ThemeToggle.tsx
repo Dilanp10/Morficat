@@ -1,11 +1,10 @@
 "use client";
 
-import { Monitor, Moon, Sun } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { useTheme, type Theme } from "./ThemeProvider";
 
 const OPTIONS: Array<{ value: Theme; label: string; icon: typeof Sun }> = [
   { value: "light", label: "Claro", icon: Sun },
-  { value: "auto", label: "Auto", icon: Monitor },
   { value: "dark", label: "Oscuro", icon: Moon },
 ];
 
@@ -27,7 +26,7 @@ export function ThemeToggle() {
             role="radio"
             aria-checked={active}
             onClick={() => setTheme(o.value)}
-            className={`inline-flex items-center gap-1.5 rounded-pill px-3 py-1.5 text-sm font-medium transition-colors ${
+            className={`inline-flex items-center gap-1.5 rounded-pill px-4 py-1.5 text-sm font-medium transition-colors ${
               active
                 ? "bg-terracota text-white"
                 : "text-foreground/60 hover:text-foreground"
