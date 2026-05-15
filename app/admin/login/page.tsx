@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import {
@@ -47,7 +49,15 @@ export default function AdminLoginPage({
         : null;
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-6 py-10">
+    <main className="min-h-screen flex flex-col items-center justify-center px-6 py-10">
+      <Link
+        href="/"
+        className="self-start inline-flex items-center gap-1 text-sm text-white/60 hover:text-white mb-6"
+      >
+        <ChevronLeft size={16} />
+        Volver a MorfiCat
+      </Link>
+
       <form
         action={loginAction}
         className="w-full max-w-sm rounded-card border border-white/10 bg-bg-elevated p-6"

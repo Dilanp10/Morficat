@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { BottomNav } from "@/components/BottomNav";
+import { SplashScreen } from "@/components/SplashScreen";
 
 export const metadata: Metadata = {
   title: "MorfiCat — Comer y tomar en Catamarca",
@@ -40,6 +41,7 @@ export default function RootLayout({
   return (
     <html lang="es" className="dark">
       <body className="min-h-screen bg-bg-base text-white antialiased pb-20">
+        <SplashScreen />
         {children}
         <BottomNav />
       </body>

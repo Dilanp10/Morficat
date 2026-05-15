@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { ChevronLeft, Plus } from "lucide-react";
 import { listarLugaresAdmin } from "@/lib/admin-data";
 import { ActivoBadge } from "./_components/ActivoBadge";
 import { LogoutButton } from "./_components/LogoutButton";
@@ -11,6 +11,14 @@ export default async function AdminPage() {
 
   return (
     <main className="min-h-screen px-4 py-6 sm:px-6">
+      <Link
+        href="/"
+        className="inline-flex items-center gap-1 text-sm text-white/60 hover:text-white mb-4"
+      >
+        <ChevronLeft size={16} />
+        Volver a MorfiCat
+      </Link>
+
       <header className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-terracota">Admin</h1>
