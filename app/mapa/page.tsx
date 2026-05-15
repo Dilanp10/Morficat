@@ -12,7 +12,7 @@ const LocalMap = nextDynamic(() => import("@/components/LocalMap"), {
 
 function MapaSkeleton() {
   return (
-    <div className="h-[calc(100vh-9rem)] w-full rounded-card bg-bg-elevated animate-pulse" />
+    <div className="h-[calc(100vh-9rem)] w-full rounded-card bg-card animate-pulse" />
   );
 }
 
@@ -24,12 +24,12 @@ export default async function MapaPage() {
       <div className="flex items-center justify-between mb-4">
         <Link
           href="/"
-          className="inline-flex items-center gap-1 text-sm text-white/60 hover:text-white"
+          className="inline-flex items-center gap-1 text-sm text-foreground/60 hover:text-foreground"
         >
           <ChevronLeft size={16} />
           Volver
         </Link>
-        <span className="text-xs text-white/35">
+        <span className="text-xs text-foreground/35">
           {lugares.length} lugar{lugares.length === 1 ? "" : "es"}
         </span>
       </div>

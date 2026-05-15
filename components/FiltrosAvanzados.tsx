@@ -24,14 +24,14 @@ export function FiltrosAvanzados({
   };
 
   return (
-    <div className="rounded-card border border-white/10 bg-bg-elevated p-4">
+    <div className="rounded-card border border-foreground/10 bg-card p-4">
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-sm font-semibold text-white">Filtros avanzados</h2>
+        <h2 className="text-sm font-semibold text-foreground">Filtros avanzados</h2>
         <button
           type="button"
           onClick={onClose}
           aria-label="Cerrar filtros"
-          className="text-white/35 hover:text-white"
+          className="text-foreground/35 hover:text-foreground"
         >
           <X size={16} />
         </button>
@@ -41,7 +41,7 @@ export function FiltrosAvanzados({
         {Object.entries(ATRIBUTOS_LABELS).map(([key, label]) => (
           <label
             key={key}
-            className="flex items-center gap-2 text-sm text-white/80 cursor-pointer"
+            className="flex items-center gap-2 text-sm text-foreground/80 cursor-pointer"
           >
             <input
               type="checkbox"
@@ -58,7 +58,7 @@ export function FiltrosAvanzados({
         <button
           type="button"
           onClick={() => onChange(new Set())}
-          className="mt-3 text-xs text-white/60 hover:text-white"
+          className="mt-3 text-xs text-foreground/60 hover:text-foreground"
         >
           Limpiar atributos
         </button>

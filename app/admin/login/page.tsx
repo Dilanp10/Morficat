@@ -52,7 +52,7 @@ export default function AdminLoginPage({
     <main className="min-h-screen flex flex-col items-center justify-center px-6 py-10">
       <Link
         href="/"
-        className="self-start inline-flex items-center gap-1 text-sm text-white/60 hover:text-white mb-6"
+        className="self-start inline-flex items-center gap-1 text-sm text-foreground/60 hover:text-foreground mb-6"
       >
         <ChevronLeft size={16} />
         Volver a MorfiCat
@@ -60,16 +60,16 @@ export default function AdminLoginPage({
 
       <form
         action={loginAction}
-        className="w-full max-w-sm rounded-card border border-white/10 bg-bg-elevated p-6"
+        className="w-full max-w-sm rounded-card border border-foreground/10 bg-card p-6"
       >
         <h1 className="text-2xl font-bold text-terracota">MorfiCat · Admin</h1>
-        <p className="text-white/60 text-sm mt-1">
+        <p className="text-foreground/60 text-sm mt-1">
           Ingresá la contraseña para administrar lugares.
         </p>
 
         <label
           htmlFor="password"
-          className="mt-6 block text-sm text-white/60"
+          className="mt-6 block text-sm text-foreground/60"
         >
           Contraseña
         </label>
@@ -79,7 +79,7 @@ export default function AdminLoginPage({
           type="password"
           autoComplete="current-password"
           required
-          className="mt-2 w-full rounded-button bg-bg-tertiary px-3 py-2 text-white outline-none ring-1 ring-white/10 focus:ring-terracota"
+          className="mt-2 w-full rounded-button bg-muted px-3 py-2 text-foreground outline-none ring-1 ring-foreground/10 focus:ring-terracota"
         />
 
         <input

@@ -89,11 +89,11 @@ export function HorariosGrid({ initial }: { initial: HorarioRow[] }) {
         return (
           <div
             key={dia}
-            className="rounded-card border border-white/10 bg-bg-tertiary p-3"
+            className="rounded-card border border-foreground/10 bg-muted p-3"
           >
             <div className="flex items-center justify-between">
-              <span className="font-medium text-white">{label}</span>
-              <label className="flex items-center gap-2 text-sm text-white/60">
+              <span className="font-medium text-foreground">{label}</span>
+              <label className="flex items-center gap-2 text-sm text-foreground/60">
                 <input
                   type="checkbox"
                   checked={d.cerrado}
@@ -121,7 +121,7 @@ export function HorariosGrid({ initial }: { initial: HorarioRow[] }) {
             {!d.cerrado && (
               <div className="mt-3 space-y-2">
                 {d.turnos.length === 0 && (
-                  <div className="text-xs text-white/35">
+                  <div className="text-xs text-foreground/35">
                     Sin turnos. Agregá uno.
                   </div>
                 )}
@@ -143,9 +143,9 @@ export function HorariosGrid({ initial }: { initial: HorarioRow[] }) {
                           ),
                         }))
                       }
-                      className="rounded-button bg-bg-base px-2 py-1 ring-1 ring-white/10"
+                      className="rounded-button bg-background px-2 py-1 ring-1 ring-foreground/10"
                     />
-                    <span className="text-white/35">→</span>
+                    <span className="text-foreground/35">→</span>
                     <input
                       type="time"
                       value={t.hora_cierre}
@@ -159,9 +159,9 @@ export function HorariosGrid({ initial }: { initial: HorarioRow[] }) {
                           ),
                         }))
                       }
-                      className="rounded-button bg-bg-base px-2 py-1 ring-1 ring-white/10"
+                      className="rounded-button bg-background px-2 py-1 ring-1 ring-foreground/10"
                     />
-                    <label className="flex items-center gap-1.5 text-white/60">
+                    <label className="flex items-center gap-1.5 text-foreground/60">
                       <input
                         type="checkbox"
                         checked={t.cruza_medianoche}
@@ -188,7 +188,7 @@ export function HorariosGrid({ initial }: { initial: HorarioRow[] }) {
                         }))
                       }
                       aria-label="Eliminar turno"
-                      className="ml-auto text-white/35 hover:text-danger transition-colors"
+                      className="ml-auto text-foreground/35 hover:text-danger transition-colors"
                     >
                       <X size={16} />
                     </button>

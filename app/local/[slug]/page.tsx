@@ -22,7 +22,7 @@ export const dynamic = "force-dynamic";
 const MiniMapa = nextDynamic(() => import("@/components/MiniMapa"), {
   ssr: false,
   loading: () => (
-    <div className="h-48 w-full rounded-card bg-bg-elevated animate-pulse" />
+    <div className="h-48 w-full rounded-card bg-card animate-pulse" />
   ),
 });
 
@@ -78,7 +78,7 @@ export default async function LocalPage({
   return (
     <main className="min-h-screen pb-12">
       <div className="relative">
-        <div className="relative aspect-[16/9] w-full bg-bg-elevated">
+        <div className="relative aspect-[16/9] w-full bg-card">
           {lugar.imagen_principal ? (
             <Image
               src={lugar.imagen_principal}
@@ -89,14 +89,14 @@ export default async function LocalPage({
               className="object-cover"
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center text-5xl text-white/35">
+            <div className="flex h-full w-full items-center justify-center text-5xl text-foreground/35">
               {lugar.categoria?.emoji ?? "🍽️"}
             </div>
           )}
           <Link
             href="/"
             aria-label="Volver"
-            className="absolute top-3 left-3 inline-flex items-center justify-center size-9 rounded-full bg-bg-base/80 backdrop-blur text-white hover:bg-bg-base transition-colors"
+            className="absolute top-3 left-3 inline-flex items-center justify-center size-9 rounded-full bg-background/80 backdrop-blur text-foreground hover:bg-background transition-colors"
           >
             <ChevronLeft size={20} />
           </Link>
@@ -104,14 +104,14 @@ export default async function LocalPage({
       </div>
 
       <div className="px-4 sm:px-6 max-w-2xl mx-auto -mt-6 relative">
-        <div className="rounded-card border border-white/10 bg-bg-elevated p-4 shadow-lg">
+        <div className="rounded-card border border-foreground/10 bg-card p-4 shadow-lg">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <h1 className="text-2xl font-bold text-white truncate">
+              <h1 className="text-2xl font-bold text-foreground truncate">
                 {lugar.nombre}
               </h1>
               {lugar.categoria && (
-                <p className="text-sm text-white/60 mt-0.5">
+                <p className="text-sm text-foreground/60 mt-0.5">
                   {lugar.categoria.emoji} {lugar.categoria.nombre}
                   {lugar.barrio ? ` · ${lugar.barrio}` : ""}
                 </p>
@@ -125,21 +125,21 @@ export default async function LocalPage({
           </div>
 
           {lugar.descripcion && (
-            <p className="mt-4 text-sm text-white/80 whitespace-pre-line">
+            <p className="mt-4 text-sm text-foreground/80 whitespace-pre-line">
               {lugar.descripcion}
             </p>
           )}
         </div>
 
         <Seccion titulo="Horarios">
-          <div className="rounded-card border border-white/10 bg-bg-elevated overflow-hidden">
+          <div className="rounded-card border border-foreground/10 bg-card overflow-hidden">
             <HorariosTable horarios={lugar.horarios} />
           </div>
         </Seccion>
 
         <Seccion titulo="Ubicación">
-          <div className="flex items-start gap-2 text-sm text-white/80 mb-3">
-            <MapPin size={16} className="mt-0.5 shrink-0 text-white/60" />
+          <div className="flex items-start gap-2 text-sm text-foreground/80 mb-3">
+            <MapPin size={16} className="mt-0.5 shrink-0 text-foreground/60" />
             <span>
               {lugar.direccion}
               {lugar.barrio ? ` · ${lugar.barrio}` : ""}
@@ -195,7 +195,7 @@ export default async function LocalPage({
               {atributosActivos.map(([key]) => (
                 <span
                   key={key}
-                  className="inline-flex rounded-pill bg-bg-elevated ring-1 ring-white/10 px-3 py-1 text-xs text-white/80"
+                  className="inline-flex rounded-pill bg-card ring-1 ring-foreground/10 px-3 py-1 text-xs text-foreground/80"
                 >
                   {ATRIBUTOS_LABELS[key] ?? key}
                 </span>
@@ -210,7 +210,7 @@ export default async function LocalPage({
               {lugar.tipos_comida.map((t) => (
                 <span
                   key={t.slug}
-                  className="inline-flex rounded-pill bg-bg-elevated ring-1 ring-white/10 px-3 py-1 text-xs text-white/80"
+                  className="inline-flex rounded-pill bg-card ring-1 ring-foreground/10 px-3 py-1 text-xs text-foreground/80"
                 >
                   {t.nombre}
                 </span>
@@ -232,7 +232,7 @@ function Seccion({
 }) {
   return (
     <section className="mt-6">
-      <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wide mb-2">
+      <h2 className="text-sm font-semibold text-foreground/60 uppercase tracking-wide mb-2">
         {titulo}
       </h2>
       {children}
@@ -257,9 +257,9 @@ function ContactoLink({
         href={href}
         target={external ? "_blank" : undefined}
         rel={external ? "noopener noreferrer" : undefined}
-        className="flex items-center gap-2 text-sm text-white/80 hover:text-terracota transition-colors"
+        className="flex items-center gap-2 text-sm text-foreground/80 hover:text-terracota transition-colors"
       >
-        <span className="text-white/60">{icon}</span>
+        <span className="text-foreground/60">{icon}</span>
         <span className="truncate">{label}</span>
       </a>
     </li>

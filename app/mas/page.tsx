@@ -5,6 +5,7 @@ import {
   Lock,
   MessageSquarePlus,
 } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const ITEMS = [
   {
@@ -32,6 +33,16 @@ export default function MasPage() {
     <main className="min-h-screen px-4 py-6 sm:px-6 max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold text-terracota mb-5">Más</h1>
 
+      <section className="mb-6">
+        <h2 className="text-xs font-semibold uppercase tracking-wide text-foreground/60 mb-2">
+          Apariencia
+        </h2>
+        <ThemeToggle />
+      </section>
+
+      <h2 className="text-xs font-semibold uppercase tracking-wide text-foreground/60 mb-2">
+        Acciones
+      </h2>
       <ul className="space-y-2">
         {ITEMS.map((it) => {
           const Icon = it.icon;
@@ -39,27 +50,27 @@ export default function MasPage() {
             <li key={it.href}>
               <Link
                 href={it.href}
-                className="flex items-center gap-3 rounded-card border border-white/10 bg-bg-elevated px-4 py-3 hover:bg-bg-tertiary transition-colors"
+                className="flex items-center gap-3 rounded-card border border-foreground/10 bg-card px-4 py-3 hover:bg-muted transition-colors"
               >
-                <span className="text-white/60">
+                <span className="text-foreground/60">
                   <Icon size={20} />
                 </span>
                 <span className="flex-1 min-w-0">
-                  <span className="block font-medium text-white">
+                  <span className="block font-medium text-foreground">
                     {it.label}
                   </span>
-                  <span className="block text-xs text-white/60 truncate">
+                  <span className="block text-xs text-foreground/60 truncate">
                     {it.descripcion}
                   </span>
                 </span>
-                <ChevronRight size={18} className="text-white/35" />
+                <ChevronRight size={18} className="text-foreground/35" />
               </Link>
             </li>
           );
         })}
       </ul>
 
-      <p className="mt-8 text-xs text-white/35 text-center">
+      <p className="mt-8 text-xs text-foreground/35 text-center">
         MorfiCat · Catamarca, Argentina
       </p>
     </main>

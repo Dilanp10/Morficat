@@ -46,7 +46,7 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Navegación principal"
-      className="fixed bottom-0 inset-x-0 z-40 border-t border-white/10 bg-bg-base/95 backdrop-blur safe-pb"
+      className="fixed bottom-0 inset-x-0 z-40 border-t border-foreground/10 bg-background/95 backdrop-blur safe-pb"
     >
       <ul className="mx-auto flex max-w-2xl items-stretch">
         {TABS.map((t) => {
@@ -57,7 +57,7 @@ export function BottomNav() {
               <Link
                 href={t.href}
                 className={`relative flex flex-col items-center gap-0.5 py-2.5 text-[11px] font-medium transition-colors ${
-                  active ? "text-terracota" : "text-white/60 hover:text-white"
+                  active ? "text-terracota" : "text-foreground/60 hover:text-foreground"
                 }`}
                 aria-current={active ? "page" : undefined}
               >

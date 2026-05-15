@@ -24,7 +24,7 @@ export function SearchBar({
     <div className="relative">
       <Search
         size={16}
-        className="absolute left-3 top-1/2 -translate-y-1/2 text-white/35"
+        className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground/35"
       />
       <input
         ref={ref}
@@ -33,14 +33,14 @@ export function SearchBar({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         enterKeyHint="search"
-        className="w-full rounded-button bg-bg-elevated pl-9 pr-9 py-2.5 text-sm text-white placeholder:text-white/35 outline-none ring-1 ring-white/10 focus:ring-terracota"
+        className="w-full rounded-button bg-card pl-9 pr-9 py-2.5 text-sm text-foreground placeholder:text-foreground/35 outline-none ring-1 ring-foreground/10 focus:ring-terracota"
       />
       {value && (
         <button
           type="button"
           onClick={() => onChange("")}
           aria-label="Limpiar"
-          className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-white/35 hover:text-white"
+          className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-foreground/35 hover:text-foreground"
         >
           <X size={16} />
         </button>

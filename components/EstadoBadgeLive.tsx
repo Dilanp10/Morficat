@@ -24,7 +24,7 @@ export function EstadoBadgeLive({ horarios }: { horarios: HorarioInput[] }) {
     <div className="inline-flex items-center gap-2 flex-wrap">
       <BadgeEstado abierto={estado.abierto} />
       {estado.detalle && (
-        <span className="text-sm text-white/60">{estado.detalle}</span>
+        <span className="text-sm text-foreground/60">{estado.detalle}</span>
       )}
     </div>
   );

@@ -113,7 +113,6 @@ Dolores secundarios atendidos por el MVP:
 - Eventos gastronómicos.
 - Notificaciones push.
 - Modo offline.
-- Light mode (solo dark mode en el MVP).
 
 > **IMPORTANTE**: La arquitectura SÍ se diseña pensando en que estos features se sumen en el futuro sin reescribir.
 
@@ -570,30 +569,39 @@ Pantalla completa con:
 |---|---|
 | **Estilo** | Cálido, gastronómico, dark mode |
 | **Inspiración** | Restaurante con iluminación cálida de noche |
-| **Modo** | Dark mode nativo (sin light mode en el MVP) |
+| **Modo** | Dark mode + Light mode con toggle (claro / oscuro / auto) en `/mas` |
 
 ### 10.2 Paleta de colores
+
+**Marca (constante en ambos modos):**
 
 | Rol | Nombre | Hex | Uso |
 |---|---|---|---|
 | Principal | Terracota | `#E07B4C` | Botones, badges activos, acentos, logo |
 | Principal oscuro | Terracota profundo | `#B85A30` | Hover, bordes activos |
-| Principal claro | Terracota suave | `#F4A882` | Texto sobre fondos oscuros, badges |
-| Fondo base | Negro cálido | `#1A1A1A` | Fondo principal de la app |
-| Fondo elevado | Gris oscuro cálido | `#242424` | Cards, bottom nav, modales |
-| Fondo terciario | Gris medio | `#2E2E2E` | Inputs, campos de búsqueda |
-| Texto primario | Blanco | `#FFFFFF` | Títulos, nombres de locales |
-| Texto secundario | Gris claro | `rgba(255,255,255,0.6)` | Subtítulos, distancias, categorías |
-| Texto terciario | Gris suave | `rgba(255,255,255,0.35)` | Hints, placeholders |
+| Principal claro | Terracota suave | `#F4A882` | Texto sobre fondos oscuros |
 | Éxito (abierto) | Verde cálido | `#4CAF82` | Badge "Abierto ahora" |
 | Error (cerrado) | Rojo suave | `#E05252` | Badge "Cerrado" |
-| Bordes | Blanco 10% | `rgba(255,255,255,0.1)` | Separadores, bordes de cards |
+
+**Tokens semánticos (varían con el tema):**
+
+| Token Tailwind | CSS var | Light | Dark |
+|---|---|---|---|
+| `bg-background` | `--background` | `#FAFAF8` (warm off-white) | `#1A1A1A` (warm dark) |
+| `text-foreground` | `--foreground` | `#1A1A1A` | `#FFFFFF` |
+| `bg-card` | `--card` | `#FFFFFF` | `#242424` |
+| `bg-muted` | `--muted` | `#F0EFEB` | `#2E2E2E` |
+| `border-foreground/10` | — | `rgba(26,26,26,0.1)` | `rgba(255,255,255,0.1)` |
+| `text-foreground/60` | — | `rgba(26,26,26,0.6)` | `rgba(255,255,255,0.6)` |
+| `text-foreground/35` | — | `rgba(26,26,26,0.35)` | `rgba(255,255,255,0.35)` |
+
+Botones con `bg-terracota` siempre usan `text-white` (no `text-foreground`) para preservar contraste e identidad de marca en ambos modos.
 
 ### 10.3 Reglas de diseño
 
-1. **Dark mode nativo** — no hay light mode en el MVP.
-2. **Color principal terracota** (`#E07B4C`) en todos los elementos interactivos.
-3. **Fondos siempre oscuros cálidos** — nunca negro puro `#000`, siempre `#1A1A1A` o más claro.
+1. **Dark + Light mode** — implementados con tokens semánticos vía CSS variables (`--background`, `--foreground`, `--card`, `--muted`). El usuario alterna desde `/mas` (claro / oscuro / auto, default auto = sigue preferencia del sistema). La preferencia persiste en `localStorage` (`morficat-theme`). Inline script en `<head>` previene FOUC.
+2. **Color principal terracota** (`#E07B4C`) en todos los elementos interactivos, igual en ambos modos (es identidad de marca).
+3. **Fondos cálidos en ambos modos** — dark `#1A1A1A` (warm dark), light `#FAFAF8` (warm off-white). Nunca negro puro `#000` ni blanco puro `#FFF`.
 4. **Tipografía**: system fonts (`-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`).
 5. **Border radius**: `12px` cards, `8px` botones/inputs, `20px` badges/pills.
 6. **Iconos**: Lucide React, 20px estándar, 16px inline.

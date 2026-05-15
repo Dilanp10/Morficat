@@ -9,15 +9,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Theme-aware tokens (varían con .dark en <html>)
+        background: "rgb(var(--background) / <alpha-value>)",
+        foreground: "rgb(var(--foreground) / <alpha-value>)",
+        card: "rgb(var(--card) / <alpha-value>)",
+        muted: "rgb(var(--muted) / <alpha-value>)",
+
+        // Identidad de marca (no varía con tema)
         terracota: {
           DEFAULT: "#E07B4C",
           deep: "#B85A30",
           soft: "#F4A882",
-        },
-        bg: {
-          base: "#1A1A1A",
-          elevated: "#242424",
-          tertiary: "#2E2E2E",
         },
         success: "#4CAF82",
         danger: "#E05252",

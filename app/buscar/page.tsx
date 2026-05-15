@@ -24,7 +24,7 @@ export default async function BuscarPage() {
         <div className="relative pt-6 pb-4">
           <Link
             href="/"
-            className="inline-flex items-center gap-1 text-sm text-white/60 hover:text-white mb-3"
+            className="inline-flex items-center gap-1 text-sm text-foreground/60 hover:text-foreground mb-3"
           >
             <ChevronLeft size={16} />
             Volver
@@ -33,7 +33,7 @@ export default async function BuscarPage() {
             <Search size={26} />
             Buscar
           </h1>
-          <p className="text-white/70 mt-1.5 text-sm">
+          <p className="text-foreground/70 mt-1.5 text-sm">
             Encontrá un lugar por nombre, categoría o tipo de comida.
           </p>
         </div>

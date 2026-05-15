@@ -85,12 +85,12 @@ export default function LocalMap({ lugares }: { lugares: LugarPublic[] }) {
           icon={estado.abierto ? iconAbierto : iconCerrado}
         >
           <Popup>
-            <div className="text-white">
-              <div className="font-semibold text-white text-base">
+            <div className="text-foreground">
+              <div className="font-semibold text-foreground text-base">
                 {lugar.nombre}
               </div>
               {lugar.categoria && (
-                <div className="text-xs text-white/60 mt-0.5">
+                <div className="text-xs text-foreground/60 mt-0.5">
                   {lugar.categoria.emoji} {lugar.categoria.nombre}
                   {lugar.barrio ? ` · ${lugar.barrio}` : ""}
                 </div>
@@ -104,7 +104,7 @@ export default function LocalMap({ lugares }: { lugares: LugarPublic[] }) {
                   {estado.abierto ? "🟢 Abierto" : "🔴 Cerrado"}
                 </span>
                 {estado.detalle && (
-                  <span className="text-white/60"> · {estado.detalle}</span>
+                  <span className="text-foreground/60"> · {estado.detalle}</span>
                 )}
               </div>
               <Link

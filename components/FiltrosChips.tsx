@@ -71,7 +71,7 @@ function Chip({
 }) {
   const cls = active
     ? "bg-gradient-to-br from-terracota to-terracota-deep text-white ring-1 ring-terracota/40"
-    : "bg-bg-elevated text-white/60 ring-1 ring-white/10 hover:text-white hover:ring-white/20";
+    : "bg-card text-foreground/60 ring-1 ring-foreground/10 hover:text-foreground hover:ring-foreground/20";
   return (
     <button
       type="button"

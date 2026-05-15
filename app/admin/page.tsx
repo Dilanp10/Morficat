@@ -13,7 +13,7 @@ export default async function AdminPage() {
     <main className="min-h-screen px-4 py-6 sm:px-6">
       <Link
         href="/"
-        className="inline-flex items-center gap-1 text-sm text-white/60 hover:text-white mb-4"
+        className="inline-flex items-center gap-1 text-sm text-foreground/60 hover:text-foreground mb-4"
       >
         <ChevronLeft size={16} />
         Volver a MorfiCat
@@ -22,7 +22,7 @@ export default async function AdminPage() {
       <header className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-terracota">Admin</h1>
-          <p className="text-white/60 text-sm">
+          <p className="text-foreground/60 text-sm">
             {lugares.length} lugar{lugares.length === 1 ? "" : "es"} cargado
             {lugares.length === 1 ? "" : "s"}
           </p>
@@ -41,13 +41,13 @@ export default async function AdminPage() {
       </div>
 
       {lugares.length === 0 ? (
-        <div className="rounded-card border border-white/10 bg-bg-elevated p-8 text-center text-white/60">
+        <div className="rounded-card border border-foreground/10 bg-card p-8 text-center text-foreground/60">
           Todavía no hay lugares cargados. Empezá creando el primero.
         </div>
       ) : (
-        <div className="rounded-card border border-white/10 bg-bg-elevated overflow-hidden">
+        <div className="rounded-card border border-foreground/10 bg-card overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-bg-tertiary text-white/60">
+            <thead className="bg-muted text-foreground/60">
               <tr>
                 <th className="text-left px-4 py-3 font-medium">Nombre</th>
                 <th className="text-left px-4 py-3 font-medium hidden sm:table-cell">
@@ -61,13 +61,13 @@ export default async function AdminPage() {
               {lugares.map((l) => (
                 <tr
                   key={l.id}
-                  className="border-t border-white/10 hover:bg-bg-tertiary/50"
+                  className="border-t border-foreground/10 hover:bg-muted/50"
                 >
                   <td className="px-4 py-3">
-                    <div className="font-medium text-white">{l.nombre}</div>
-                    <div className="text-xs text-white/35">{l.slug}</div>
+                    <div className="font-medium text-foreground">{l.nombre}</div>
+                    <div className="text-xs text-foreground/35">{l.slug}</div>
                   </td>
-                  <td className="px-4 py-3 text-white/60 hidden sm:table-cell">
+                  <td className="px-4 py-3 text-foreground/60 hidden sm:table-cell">
                     {l.categoria
                       ? `${l.categoria.emoji ?? ""} ${l.categoria.nombre}`
                       : "—"}
@@ -75,7 +75,7 @@ export default async function AdminPage() {
                   <td className="px-4 py-3">
                     <ActivoBadge activo={l.activo} />
                     {l.data_temporal && (
-                      <span className="ml-2 text-xs text-white/35">
+                      <span className="ml-2 text-xs text-foreground/35">
                         · temporal
                       </span>
                     )}

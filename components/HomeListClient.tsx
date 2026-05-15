@@ -118,8 +118,8 @@ export function HomeListClient({
 
   if (enriquecidos.length === 0) {
     return (
-      <div className="rounded-card border border-white/10 bg-bg-elevated p-8 text-center">
-        <p className="text-white/60">Todavía no hay lugares cargados.</p>
+      <div className="rounded-card border border-foreground/10 bg-card p-8 text-center">
+        <p className="text-foreground/60">Todavía no hay lugares cargados.</p>
       </div>
     );
   }
@@ -145,7 +145,7 @@ export function HomeListClient({
         onClose={() => setFiltrosAbiertos(false)}
       />
 
-      <div className="flex items-center justify-between gap-3 text-xs text-white/35">
+      <div className="flex items-center justify-between gap-3 text-xs text-foreground/35">
         <span>
           {filtrados.length} resultado{filtrados.length === 1 ? "" : "s"}
         </span>
@@ -156,7 +156,7 @@ export function HomeListClient({
       </div>
 
       {gpsState === "denied" && (
-        <div className="rounded-card border border-white/10 bg-bg-elevated px-3 py-2 text-xs text-white/60 flex items-center gap-2">
+        <div className="rounded-card border border-foreground/10 bg-card px-3 py-2 text-xs text-foreground/60 flex items-center gap-2">
           <MapPin size={14} />
           Activá la ubicación del navegador para ver distancias.
         </div>
@@ -207,12 +207,12 @@ function EmptyState({
       ? "Tocá 'Limpiar filtros' para ver todos."
       : null;
   return (
-    <div className="rounded-card border border-white/10 bg-bg-elevated p-8 text-center animate-fade-in-up">
+    <div className="rounded-card border border-foreground/10 bg-card p-8 text-center animate-fade-in-up">
       <div className="mx-auto mb-3 inline-flex items-center justify-center size-12 rounded-pill bg-terracota/15 text-terracota">
         <Icon size={22} />
       </div>
-      <p className="text-white font-medium">{titulo}</p>
-      {sub && <p className="text-white/60 text-sm mt-1">{sub}</p>}
+      <p className="text-foreground font-medium">{titulo}</p>
+      {sub && <p className="text-foreground/60 text-sm mt-1">{sub}</p>}
       <button
         type="button"
         onClick={onReset}

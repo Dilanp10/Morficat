@@ -82,7 +82,7 @@ export default async function AdminLugarPage({
     <main className="min-h-screen px-4 py-6 sm:px-6 max-w-3xl mx-auto">
       <Link
         href="/admin"
-        className="inline-flex items-center gap-1 text-sm text-white/60 hover:text-white mb-4"
+        className="inline-flex items-center gap-1 text-sm text-foreground/60 hover:text-foreground mb-4"
       >
         <ChevronLeft size={16} />
         Volver

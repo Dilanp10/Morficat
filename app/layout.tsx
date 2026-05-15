@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { BottomNav } from "@/components/BottomNav";
 import { SplashScreen } from "@/components/SplashScreen";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "MorfiCat — Comer y tomar en Catamarca",
@@ -26,12 +27,17 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1A1A1A",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#FAFAF8" },
+    { media: "(prefers-color-scheme: dark)", color: "#1A1A1A" },
+  ],
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
 };
+
+const themeInitScript = `(function(){try{var t=localStorage.getItem('morficat-theme');var s=window.matchMedia('(prefers-color-scheme: dark)').matches;var d=t==='dark'||((t==='auto'||!t)&&s);if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
 
 export default function RootLayout({
   children,
@@ -39,11 +45,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className="dark">
-      <body className="min-h-screen bg-bg-base text-white antialiased pb-20">
-        <SplashScreen />
-        {children}
-        <BottomNav />
+    <html lang="es" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body className="min-h-screen bg-background text-foreground antialiased pb-20">
+        <ThemeProvider>
+          <SplashScreen />
+          {children}
+          <BottomNav />
+        </ThemeProvider>
       </body>
     </html>
   );

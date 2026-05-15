@@ -25,13 +25,13 @@ export function HorariosTable({ horarios }: { horarios: HorarioInput[] }) {
           return (
             <tr
               key={d}
-              className={`border-b border-white/10 last:border-0 ${
+              className={`border-b border-foreground/10 last:border-0 ${
                 esHoy ? "bg-terracota/10" : ""
               }`}
             >
               <td
                 className={`px-3 py-2.5 align-top ${
-                  esHoy ? "font-semibold text-terracota" : "text-white/80"
+                  esHoy ? "font-semibold text-terracota" : "text-foreground/80"
                 }`}
               >
                 {DIAS_SEMANA[d]}
@@ -41,16 +41,16 @@ export function HorariosTable({ horarios }: { horarios: HorarioInput[] }) {
                   </span>
                 )}
               </td>
-              <td className="px-3 py-2.5 text-right text-white/80">
+              <td className="px-3 py-2.5 text-right text-foreground/80">
                 {turnos.length === 0 ? (
-                  <span className="text-white/35">Cerrado</span>
+                  <span className="text-foreground/35">Cerrado</span>
                 ) : (
                   <div className="space-y-0.5">
                     {turnos.map((t, i) => (
                       <div key={i}>
                         {format(t.hora_apertura)} – {format(t.hora_cierre)}
                         {t.cruza_medianoche && (
-                          <span className="ml-1 text-[10px] text-white/35">
+                          <span className="ml-1 text-[10px] text-foreground/35">
                             +1 día
                           </span>
                         )}

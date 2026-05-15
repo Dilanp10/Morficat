@@ -2,64 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: dark;
-  --bottom-nav-height: 64px;
+@layer base {
+  :root {
+    color-scheme: light;
+    --bottom-nav-height: 64px;
+    /* Light: cálido warm white */
+    --background: 250 250 248;
+    --foreground: 26 26 26;
+    --card: 255 255 255;
+    --muted: 240 239 235;
+  }
+
+  .dark {
+    color-scheme: dark;
+    --background: 26 26 26;
+    --foreground: 255 255 255;
+    --card: 36 36 36;
+    --muted: 46 46 46;
+  }
+
+  html,
+  body {
+    background-color: rgb(var(--background));
+    color: rgb(var(--foreground));
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
-html,
-body {
-  background-color: #1a1a1a;
-  color: #ffffff;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: transparent;
-}
-
-button,
-a {
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Leaflet popup dark-mode styling — !important porque leaflet.css se carga después */
+/* Leaflet popup themed via CSS vars */
 .leaflet-popup-content-wrapper {
-  background-color: #242424 !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background-color: rgb(var(--card)) !important;
+  color: rgb(var(--foreground)) !important;
+  border: 1px solid rgb(var(--foreground) / 0.1) !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
   border-radius: 12px !important;
 }
 .leaflet-popup-tip {
-  background-color: #242424 !important;
+  background-color: rgb(var(--card)) !important;
   box-shadow: none !important;
 }
 .leaflet-popup-content {
   margin: 12px 14px !important;
-  color: #ffffff !important;
+  color: rgb(var(--foreground)) !important;
   font-family: inherit !important;
 }
 .leaflet-popup-content a {
   color: #e07b4c !important;
 }
 .leaflet-popup-close-button {
-  color: rgba(255, 255, 255, 0.6) !important;
+  color: rgb(var(--foreground) / 0.6) !important;
   font-size: 18px !important;
   padding: 6px 8px !important;
 }
 .leaflet-popup-close-button:hover {
-  color: #ffffff !important;
+  color: rgb(var(--foreground)) !important;
   background: transparent !important;
 }
 .leaflet-container {
-  background-color: #1a1a1a !important;
+  background-color: rgb(var(--background)) !important;
   font-family: inherit;
 }
 .leaflet-control-attribution {
-  background-color: rgba(36, 36, 36, 0.8) !important;
-  color: rgba(255, 255, 255, 0.6) !important;
+  background-color: rgb(var(--card) / 0.85) !important;
+  color: rgb(var(--foreground) / 0.6) !important;
 }
 .leaflet-control-attribution a {
   color: #e07b4c !important;
@@ -69,7 +85,6 @@ a {
   border: none;
 }
 
-/* Soporte para safe-area en iOS (notch / barra inferior) */
 .safe-pb {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }

@@ -87,7 +87,7 @@ export function LugarForm({
       )}
 
       <section className="space-y-3">
-        <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wide">
+        <h2 className="text-sm font-semibold text-foreground/60 uppercase tracking-wide">
           Básico
         </h2>
         <Field label="Nombre" required>
@@ -139,7 +139,7 @@ export function LugarForm({
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wide">
+        <h2 className="text-sm font-semibold text-foreground/60 uppercase tracking-wide">
           Ubicación
         </h2>
         <Field label="Dirección" required>
@@ -181,14 +181,14 @@ export function LugarForm({
             />
           </Field>
         </div>
-        <p className="text-xs text-white/35">
+        <p className="text-xs text-foreground/35">
           Tip: en Google Maps, click derecho sobre el local → copiá las
           coordenadas.
         </p>
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wide">
+        <h2 className="text-sm font-semibold text-foreground/60 uppercase tracking-wide">
           Contacto
         </h2>
         <Field label="Teléfono">
@@ -223,7 +223,7 @@ export function LugarForm({
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wide">
+        <h2 className="text-sm font-semibold text-foreground/60 uppercase tracking-wide">
           Imagen
         </h2>
         {initial.imagen_principal && (
@@ -234,7 +234,7 @@ export function LugarForm({
               alt=""
               className="size-20 rounded-card object-cover"
             />
-            <span className="text-xs text-white/35">
+            <span className="text-xs text-foreground/35">
               Imagen actual. Subí una nueva para reemplazarla.
             </span>
           </div>
@@ -243,19 +243,19 @@ export function LugarForm({
           name="imagen"
           type="file"
           accept="image/jpeg,image/png,image/webp"
-          className="text-sm file:mr-3 file:rounded-button file:border-0 file:bg-bg-tertiary file:px-3 file:py-1.5 file:text-white"
+          className="text-sm file:mr-3 file:rounded-button file:border-0 file:bg-muted file:px-3 file:py-1.5 file:text-foreground"
         />
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wide">
+        <h2 className="text-sm font-semibold text-foreground/60 uppercase tracking-wide">
           Tipos de comida
         </h2>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {tiposComida.map((t) => (
             <label
               key={t.id}
-              className="flex items-center gap-2 text-sm text-white/80"
+              className="flex items-center gap-2 text-sm text-foreground/80"
             >
               <input
                 type="checkbox"
@@ -271,14 +271,14 @@ export function LugarForm({
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wide">
+        <h2 className="text-sm font-semibold text-foreground/60 uppercase tracking-wide">
           Atributos
         </h2>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {Object.entries(ATRIBUTOS_LABELS).map(([key, label]) => (
             <label
               key={key}
-              className="flex items-center gap-2 text-sm text-white/80"
+              className="flex items-center gap-2 text-sm text-foreground/80"
             >
               <input
                 type="checkbox"
@@ -293,14 +293,14 @@ export function LugarForm({
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wide">
+        <h2 className="text-sm font-semibold text-foreground/60 uppercase tracking-wide">
           Horarios
         </h2>
         <HorariosGrid initial={initial.horarios} />
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wide">
+        <h2 className="text-sm font-semibold text-foreground/60 uppercase tracking-wide">
           Estado
         </h2>
         <Toggle
@@ -339,7 +339,7 @@ export function LugarForm({
         </button>
         <Link
           href="/admin"
-          className="rounded-button border border-white/10 px-4 py-2 text-sm text-white/60 hover:bg-bg-tertiary transition-colors"
+          className="rounded-button border border-foreground/10 px-4 py-2 text-sm text-foreground/60 hover:bg-muted transition-colors"
         >
           Cancelar
         </Link>
@@ -349,7 +349,7 @@ export function LugarForm({
 }
 
 const inputCls =
-  "w-full rounded-button bg-bg-tertiary px-3 py-2 text-white outline-none ring-1 ring-white/10 focus:ring-terracota";
+  "w-full rounded-button bg-muted px-3 py-2 text-foreground outline-none ring-1 ring-foreground/10 focus:ring-terracota";
 
 function Field({
   label,
@@ -362,7 +362,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="block text-sm text-white/60 mb-1">
+      <span className="block text-sm text-foreground/60 mb-1">
         {label}
         {required && <span className="text-terracota"> *</span>}
       </span>
@@ -391,9 +391,9 @@ function Toggle({
         className="mt-1 accent-terracota"
       />
       <span className="flex-1">
-        <span className="block text-white">{label}</span>
+        <span className="block text-foreground">{label}</span>
         {description && (
-          <span className="block text-xs text-white/35">{description}</span>
+          <span className="block text-xs text-foreground/35">{description}</span>
         )}
       </span>
     </label>

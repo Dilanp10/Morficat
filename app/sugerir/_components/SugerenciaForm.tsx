@@ -18,8 +18,8 @@ export function SugerenciaForm() {
   if (done) {
     return (
       <div className="rounded-card border border-success/40 bg-success/10 p-6 text-center">
-        <p className="text-white font-medium">¡Gracias!</p>
-        <p className="text-white/60 text-sm mt-1">
+        <p className="text-foreground font-medium">¡Gracias!</p>
+        <p className="text-foreground/60 text-sm mt-1">
           Tu sugerencia llegó bien. La revisamos lo antes posible.
         </p>
         <button
@@ -102,7 +102,7 @@ export function SugerenciaForm() {
 }
 
 const inputCls =
-  "w-full rounded-button bg-bg-tertiary px-3 py-2 text-white outline-none ring-1 ring-white/10 focus:ring-terracota";
+  "w-full rounded-button bg-muted px-3 py-2 text-foreground outline-none ring-1 ring-foreground/10 focus:ring-terracota";
 
 function Field({
   label,
@@ -113,7 +113,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="block text-sm text-white/60 mb-1">{label}</span>
+      <span className="block text-sm text-foreground/60 mb-1">{label}</span>
       {children}
     </label>
   );
