@@ -56,12 +56,18 @@ export function BottomNav() {
             <li key={t.href} className="flex-1">
               <Link
                 href={t.href}
-                className={`flex flex-col items-center gap-0.5 py-2.5 text-xs transition-colors ${
+                className={`relative flex flex-col items-center gap-0.5 py-2.5 text-[11px] font-medium transition-colors ${
                   active ? "text-terracota" : "text-white/60 hover:text-white"
                 }`}
                 aria-current={active ? "page" : undefined}
               >
-                <Icon size={20} />
+                {active && (
+                  <span
+                    aria-hidden
+                    className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-8 rounded-b-full bg-gradient-to-r from-terracota to-terracota-deep"
+                  />
+                )}
+                <Icon size={20} strokeWidth={active ? 2.4 : 2} />
                 <span>{t.label}</span>
               </Link>
             </li>

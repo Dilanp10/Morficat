@@ -39,6 +39,24 @@ const config: Config = {
       spacing: {
         bottom: "var(--bottom-nav-height, 64px)",
       },
+      keyframes: {
+        "fade-in-up": {
+          "0%": { opacity: "0", transform: "translateY(6px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "soft-pulse": {
+          "0%, 100%": {
+            boxShadow: "0 0 0 0 rgba(76, 175, 130, 0.55)",
+          },
+          "50%": {
+            boxShadow: "0 0 0 6px rgba(76, 175, 130, 0)",
+          },
+        },
+      },
+      animation: {
+        "fade-in-up": "fade-in-up 350ms ease-out both",
+        "soft-pulse": "soft-pulse 2.4s ease-in-out infinite",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

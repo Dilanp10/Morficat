@@ -26,9 +26,9 @@ export function LocalCard({
   return (
     <Link
       href={`/local/${data.slug}`}
-      className="flex gap-3 rounded-card border border-white/10 bg-bg-elevated p-3 hover:bg-bg-tertiary transition-colors"
+      className="group flex gap-3 rounded-card border border-white/10 bg-bg-elevated p-3 transition-all duration-200 hover:bg-bg-tertiary hover:border-terracota/40 active:scale-[0.99] animate-fade-in-up"
     >
-      <div className="relative shrink-0 size-20 sm:size-24 overflow-hidden rounded-button bg-bg-tertiary">
+      <div className="relative shrink-0 size-20 sm:size-24 overflow-hidden rounded-button bg-bg-tertiary group-hover:ring-1 group-hover:ring-terracota/30 transition-shadow">
         {data.imagen_principal ? (
           <Image
             src={data.imagen_principal}
@@ -46,7 +46,9 @@ export function LocalCard({
       </div>
 
       <div className="flex-1 min-w-0">
-        <h3 className="font-medium text-white truncate">{data.nombre}</h3>
+        <h3 className="font-semibold text-white truncate group-hover:text-terracota-soft transition-colors">
+          {data.nombre}
+        </h3>
         <p className="text-xs text-white/60 mt-0.5 truncate">
           {[data.categoria_nombre, data.barrio].filter(Boolean).join(" · ")}
         </p>

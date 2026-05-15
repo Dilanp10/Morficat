@@ -70,14 +70,14 @@ function Chip({
   children: React.ReactNode;
 }) {
   const cls = active
-    ? "bg-terracota text-white"
-    : "bg-bg-elevated text-white/60 ring-1 ring-white/10 hover:text-white";
+    ? "bg-gradient-to-br from-terracota to-terracota-deep text-white ring-1 ring-terracota/40"
+    : "bg-bg-elevated text-white/60 ring-1 ring-white/10 hover:text-white hover:ring-white/20";
   return (
     <button
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`inline-flex items-center gap-1.5 rounded-pill px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${cls}`}
+      className={`inline-flex items-center gap-1.5 rounded-pill px-3.5 py-1.5 text-sm font-medium whitespace-nowrap transition-all duration-200 active:scale-95 ${cls}`}
     >
       {children}
     </button>

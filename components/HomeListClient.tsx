@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { MapPin } from "lucide-react";
+import { MapPin, MoonStar, SearchX } from "lucide-react";
 import { LocalCard, type LocalCardData } from "./LocalCard";
 import { SearchBar } from "./SearchBar";
 import { FiltrosChips } from "./FiltrosChips";
@@ -195,18 +195,28 @@ function EmptyState({
   hasQuery: boolean;
   onReset: () => void;
 }) {
+  const Icon = hasQuery ? SearchX : soloAbiertos ? MoonStar : SearchX;
   const titulo = hasQuery
     ? "No encontramos lugares con ese nombre."
     : soloAbiertos
       ? "No hay locales abiertos ahora."
       : "Ningún lugar coincide con los filtros.";
+  const sub = hasQuery
+    ? "Probá con otra palabra o sacá los filtros."
+    : soloAbiertos
+      ? "Tocá 'Limpiar filtros' para ver todos."
+      : null;
   return (
-    <div className="rounded-card border border-white/10 bg-bg-elevated p-8 text-center">
-      <p className="text-white">{titulo}</p>
+    <div className="rounded-card border border-white/10 bg-bg-elevated p-8 text-center animate-fade-in-up">
+      <div className="mx-auto mb-3 inline-flex items-center justify-center size-12 rounded-pill bg-terracota/15 text-terracota">
+        <Icon size={22} />
+      </div>
+      <p className="text-white font-medium">{titulo}</p>
+      {sub && <p className="text-white/60 text-sm mt-1">{sub}</p>}
       <button
         type="button"
         onClick={onReset}
-        className="mt-4 rounded-button bg-terracota px-4 py-2 text-sm font-medium text-white hover:bg-terracota-deep transition-colors"
+        className="mt-5 rounded-button bg-terracota px-4 py-2 text-sm font-medium text-white hover:bg-terracota-deep transition-colors"
       >
         Limpiar filtros
       </button>
