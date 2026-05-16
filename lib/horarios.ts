@@ -8,6 +8,22 @@ type HorarioInput = Pick<
 
 const NOMBRE_DIA_CORTO = ["dom.", "lun.", "mar.", "mié.", "jue.", "vie.", "sáb."];
 
+/**
+ * El horario cruza medianoche si:
+ * - el usuario marcó el flag explícito, O
+ * - la hora de cierre es menor que la de apertura (inferencia automática).
+ *   Ej: apertura 21:00 / cierre 02:00 → cruza implícitamente.
+ *   Ej: apertura 20:30 / cierre 00:00 → cruza (00:00 = midnight del siguiente día).
+ */
+export function cruzaMedianoche(
+  hora_apertura: string,
+  hora_cierre: string,
+  flag: boolean,
+): boolean {
+  if (flag) return true;
+  return parseHora(hora_cierre) < parseHora(hora_apertura);
+}
+
 export function estaAbierto(
   horarios: HorarioInput[],
   now: Date = new Date(),
@@ -21,7 +37,8 @@ export function estaAbierto(
     if (h.dia_semana !== dia) continue;
     const apertura = parseHora(h.hora_apertura);
     const cierre = parseHora(h.hora_cierre);
-    if (h.cruza_medianoche) {
+    const cruza = cruzaMedianoche(h.hora_apertura, h.hora_cierre, h.cruza_medianoche);
+    if (cruza) {
       if (minutosActuales >= apertura) return true;
     } else if (minutosActuales >= apertura && minutosActuales < cierre) {
       return true;
@@ -31,8 +48,9 @@ export function estaAbierto(
   const diaAnterior = (dia + 6) % 7;
   for (const h of horarios) {
     if (h.cerrado) continue;
-    if (!h.cruza_medianoche) continue;
     if (h.dia_semana !== diaAnterior) continue;
+    const cruza = cruzaMedianoche(h.hora_apertura, h.hora_cierre, h.cruza_medianoche);
+    if (!cruza) continue;
     const cierre = parseHora(h.hora_cierre);
     if (minutosActuales < cierre) return true;
   }
@@ -71,7 +89,8 @@ export function estadoConHorario(
     if (h.dia_semana !== dia) continue;
     const apertura = parseHora(h.hora_apertura);
     const cierre = parseHora(h.hora_cierre);
-    if (h.cruza_medianoche) {
+    const cruza = cruzaMedianoche(h.hora_apertura, h.hora_cierre, h.cruza_medianoche);
+    if (cruza) {
       if (minutosActuales >= apertura) {
         return { abierto: true, detalle: `cierra a las ${formatHora(h.hora_cierre)}` };
       }
@@ -83,8 +102,9 @@ export function estadoConHorario(
   const diaAnterior = (dia + 6) % 7;
   for (const h of horarios) {
     if (h.cerrado) continue;
-    if (!h.cruza_medianoche) continue;
     if (h.dia_semana !== diaAnterior) continue;
+    const cruza = cruzaMedianoche(h.hora_apertura, h.hora_cierre, h.cruza_medianoche);
+    if (!cruza) continue;
     const cierre = parseHora(h.hora_cierre);
     if (minutosActuales < cierre) {
       return { abierto: true, detalle: `cierra a las ${formatHora(h.hora_cierre)}` };

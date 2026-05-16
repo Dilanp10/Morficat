@@ -274,3 +274,73 @@ describe("estadoConHorario", () => {
     });
   });
 });
+
+describe("auto-detect cross-midnight (flag faltante)", () => {
+  it("estaAbierto — apertura 20:30, cierre 00:00 sin flag: abierto a las 23:00", () => {
+    const horarios = [
+      {
+        dia_semana: 1,
+        hora_apertura: "20:30",
+        hora_cierre: "00:00",
+        cerrado: false,
+        cruza_medianoche: false,
+      },
+    ];
+    expect(estaAbierto(horarios, lunes(23))).toBe(true);
+  });
+
+  it("estaAbierto — apertura 21:00, cierre 02:00 sin flag: abierto viernes 22:00", () => {
+    const horarios = [
+      {
+        dia_semana: 5,
+        hora_apertura: "21:00",
+        hora_cierre: "02:00",
+        cerrado: false,
+        cruza_medianoche: false,
+      },
+    ];
+    expect(estaAbierto(horarios, viernes(22))).toBe(true);
+  });
+
+  it("estaAbierto — apertura 21:00, cierre 02:00 sin flag: abierto sábado 01:00", () => {
+    const horarios = [
+      {
+        dia_semana: 5,
+        hora_apertura: "21:00",
+        hora_cierre: "02:00",
+        cerrado: false,
+        cruza_medianoche: false,
+      },
+    ];
+    expect(estaAbierto(horarios, sabado(1))).toBe(true);
+  });
+
+  it("estaAbierto — apertura 21:00, cierre 02:00 sin flag: cerrado sábado 03:00", () => {
+    const horarios = [
+      {
+        dia_semana: 5,
+        hora_apertura: "21:00",
+        hora_cierre: "02:00",
+        cerrado: false,
+        cruza_medianoche: false,
+      },
+    ];
+    expect(estaAbierto(horarios, sabado(3))).toBe(false);
+  });
+
+  it("estadoConHorario — auto-detect: muestra 'cierra a las 02:00'", () => {
+    const horarios = [
+      {
+        dia_semana: 5,
+        hora_apertura: "21:00",
+        hora_cierre: "02:00",
+        cerrado: false,
+        cruza_medianoche: false,
+      },
+    ];
+    expect(estadoConHorario(horarios, viernes(23))).toEqual({
+      abierto: true,
+      detalle: "cierra a las 02:00",
+    });
+  });
+});

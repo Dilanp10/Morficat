@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin-guard";
+import { cruzaMedianoche } from "@/lib/horarios";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { slugify } from "@/lib/slug";
 import type { Atributos } from "@/lib/types";
@@ -148,7 +149,13 @@ export async function saveLugar(formData: FormData): Promise<void> {
       hora_apertura: h.hora_apertura,
       hora_cierre: h.hora_cierre,
       cerrado: h.cerrado,
-      cruza_medianoche: h.cruza_medianoche,
+      // Normalizar: si el cierre es menor que la apertura, fuerza cruza_medianoche.
+      // Evita que el admin tenga que recordar el checkbox.
+      cruza_medianoche: cruzaMedianoche(
+        h.hora_apertura,
+        h.hora_cierre,
+        h.cruza_medianoche,
+      ),
     }));
     const { error: hErr } = await supabase.from("horarios").insert(rows);
     if (hErr) throw new Error(`Error guardando horarios: ${hErr.message}`);
