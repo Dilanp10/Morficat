@@ -62,6 +62,13 @@ export function HomeListClient({
       const distanciaKm = coords
         ? calcularDistanciaKm(coords.lat, coords.lng, l.lat, l.lng)
         : null;
+      const ratings = (l.resenas ?? []).map((r) => r.puntuacion);
+      const ratingCount = ratings.length;
+      const ratingPromedio =
+        ratingCount > 0
+          ? Math.round((ratings.reduce((s, p) => s + p, 0) / ratingCount) * 10) /
+            10
+          : null;
       return {
         lugar: l,
         card: {
@@ -74,6 +81,8 @@ export function HomeListClient({
           abierto: estado.abierto,
           detalleHorario: estado.detalle,
           distanciaKm,
+          ratingPromedio,
+          ratingCount,
         },
       };
     });

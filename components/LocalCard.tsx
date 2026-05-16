@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin } from "lucide-react";
+import { MapPin, Star } from "lucide-react";
 import { BadgeEstado } from "./BadgeEstado";
 import { formatearDistancia } from "@/lib/distancia";
 
@@ -14,6 +14,8 @@ export type LocalCardData = {
   abierto: boolean;
   detalleHorario: string | null;
   distanciaKm: number | null;
+  ratingPromedio: number | null;
+  ratingCount: number;
 };
 
 export function LocalCard({
@@ -56,6 +58,15 @@ export function LocalCard({
           <BadgeEstado abierto={data.abierto} />
           {data.detalleHorario && (
             <span className="text-xs text-foreground/60">{data.detalleHorario}</span>
+          )}
+          {data.ratingPromedio !== null && (
+            <span className="inline-flex items-center gap-0.5 text-xs text-foreground/60">
+              <Star size={12} className="fill-terracota text-terracota" />
+              <span className="text-foreground/80 font-medium">
+                {data.ratingPromedio.toFixed(1)}
+              </span>
+              <span>({data.ratingCount})</span>
+            </span>
           )}
           {(data.distanciaKm !== null || data.barrio) && (
             <span className="inline-flex items-center gap-1 text-xs text-foreground/60">

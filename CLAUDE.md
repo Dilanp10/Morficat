@@ -100,11 +100,9 @@ Dolores secundarios atendidos por el MVP:
 - Panel de admin mínimo para CRUD de locales.
 - App instalable como PWA.
 
-### 3.2 Lo que NO entra en el MVP
+### 3.2 Lo que NO entra en el MVP (v1.0)
 
-- Login / cuentas de usuario.
 - Favoritos.
-- Reseñas / puntuaciones.
 - Recomendaciones personalizadas / algoritmos inteligentes.
 - Promociones / publicidad.
 - Reservas / delivery.
@@ -116,14 +114,21 @@ Dolores secundarios atendidos por el MVP:
 
 > **IMPORTANTE**: La arquitectura SÍ se diseña pensando en que estos features se sumen en el futuro sin reescribir.
 
+### 3.2.1 Lo que entra en v1.5 (Cuentas + Reseñas)
+
+- **Sistema de cuentas** (email + password + nombre obligatorio, Supabase Auth).
+- **Verificación de email** activada — sólo cuentas verificadas pueden reseñar.
+- **Welcome overlay** en la primera visita: "Continuar como invitado" / "Crear cuenta" / "Iniciar sesión".
+- **Modo invitado**: igual que v1.0 (browsing, búsqueda, mapa, ficha). Sin overhead de auth.
+- **Reseñas**: sólo usuarios registrados pueden dejar 1 reseña por lugar (estrellas 1-5 + comentario opcional). Editables.
+- **Promedio de estrellas + cantidad** en LocalCard y ficha.
+- **Cliente público sigue usando anon key** (no se pierde performance del modo invitado).
+
 ### 3.3 Visión futura del producto (v2+)
 
 Funcionalidades que la arquitectura debe soportar a futuro:
 
-- Sistema de usuarios, inicio de sesión y perfiles.
 - Favoritos.
-- Opiniones y reseñas.
-- Sistema de puntuación.
 - Recomendaciones inteligentes según gustos y comportamiento.
 - Promociones.
 - Publicidad para locales.
@@ -132,19 +137,30 @@ Funcionalidades que la arquitectura debe soportar a futuro:
 - Analytics para comercios.
 - Ranking de lugares.
 - Eventos gastronómicos.
+- Login social (Google, Facebook).
+- Avatares personalizados.
+- Pages de perfil de usuario.
 
 ---
 
 ## 4. Fases del Producto
 
-### 4.1 Fase MVP (Privado) — FASE ACTUAL
+### 4.1 Fase MVP (Privado) — v1.0 ✅ entregado
 
-- App en producción, en hosting público (Vercel).
+- App en producción, en hosting público (Vercel) en `https://morficat.vercel.app`.
 - **Sin sistema de login** para usuarios finales.
 - **URL no compartida ampliamente** — solo accesible a personas elegidas (familia, amigos).
 - Datos cargados rápidamente desde fuentes públicas (Instagram de locales, Google como referencia de ubicación).
 - Fotos temporales desde Instagram (riesgo controlado dado que la app no está distribuida públicamente).
 - Objetivo: validar UX, probar arquitectura, conseguir feedback temprano.
+
+### 4.1.1 Fase v1.5 (Cuentas + Reseñas) — FASE ACTUAL
+
+- Mantiene todo lo de v1.0.
+- Agrega capa opt-in de cuentas: la app sigue funcionando 100% sin login (modo invitado).
+- Welcome overlay aparece sólo la primera visita; persiste la elección en `localStorage` (`morficat_welcomed`).
+- Reseñas + puntuación gated por email verificado.
+- Objetivo: empezar a construir comunidad sin sacrificar el "0 fricción" del MVP.
 
 ### 4.2 Fase de Lanzamiento Público (Post-MVP)
 

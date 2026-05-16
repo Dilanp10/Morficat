@@ -2,10 +2,17 @@ import Link from "next/link";
 import {
   ChevronRight,
   Info,
+  LogIn,
+  LogOut,
   Lock,
   MessageSquarePlus,
+  UserPlus,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { signOutAction } from "@/lib/auth-actions";
+import { getCurrentProfile } from "@/lib/supabase/server";
+
+export const dynamic = "force-dynamic";
 
 const ITEMS = [
   {
@@ -28,10 +35,51 @@ const ITEMS = [
   },
 ];
 
-export default function MasPage() {
+export default async function MasPage() {
+  const profile = await getCurrentProfile();
+
   return (
     <main className="min-h-screen px-4 py-6 sm:px-6 max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold text-terracota mb-5">Más</h1>
+
+      <section className="mb-6">
+        <h2 className="text-xs font-semibold uppercase tracking-wide text-foreground/60 mb-2">
+          Cuenta
+        </h2>
+        {profile ? (
+          <div className="rounded-card border border-foreground/10 bg-card p-4">
+            <p className="text-sm text-foreground/60">Conectado como</p>
+            <p className="font-semibold text-foreground">{profile.display_name}</p>
+            <p className="text-xs text-foreground/60 mt-0.5">{profile.email}</p>
+            <form action={signOutAction} className="mt-3">
+              <button
+                type="submit"
+                className="inline-flex items-center gap-1.5 rounded-button border border-foreground/10 px-3 py-1.5 text-sm text-foreground/80 hover:bg-muted transition-colors"
+              >
+                <LogOut size={14} />
+                Cerrar sesión
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-2">
+            <Link
+              href="/login"
+              className="inline-flex items-center justify-center gap-1.5 rounded-button border border-foreground/10 bg-card px-3 py-2.5 text-sm font-medium text-foreground hover:bg-muted transition-colors"
+            >
+              <LogIn size={14} />
+              Iniciar sesión
+            </Link>
+            <Link
+              href="/signup"
+              className="inline-flex items-center justify-center gap-1.5 rounded-button bg-terracota px-3 py-2.5 text-sm font-medium text-white hover:bg-terracota-deep transition-colors"
+            >
+              <UserPlus size={14} />
+              Crear cuenta
+            </Link>
+          </div>
+        )}
+      </section>
 
       <section className="mb-6">
         <h2 className="text-xs font-semibold uppercase tracking-wide text-foreground/60 mb-2">

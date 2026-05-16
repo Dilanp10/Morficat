@@ -12,10 +12,18 @@ import {
   Phone,
 } from "lucide-react";
 import { EstadoBadgeLive } from "@/components/EstadoBadgeLive";
+import { EstrellasDisplay } from "@/components/EstrellasDisplay";
 import { HorariosTable } from "@/components/HorariosTable";
 import { ShareButton } from "@/components/ShareButton";
 import { ATRIBUTOS_LABELS } from "@/lib/constants";
 import { obtenerLugarPorSlug } from "@/lib/lugares-public";
+import {
+  calcularPromedio,
+  listarResenasPorLugar,
+  obtenerResenaUsuario,
+} from "@/lib/resenas";
+import { getCurrentUser } from "@/lib/supabase/server";
+import { ResenasSeccion } from "./_components/ResenasSeccion";
 
 export const dynamic = "force-dynamic";
 
@@ -71,6 +79,15 @@ export default async function LocalPage({
   const lugar = await obtenerLugarPorSlug(params.slug);
   if (!lugar) notFound();
 
+  const [resenas, userResena, currentUser] = await Promise.all([
+    listarResenasPorLugar(lugar.id),
+    obtenerResenaUsuario(lugar.id),
+    getCurrentUser(),
+  ]);
+  const { promedio, total } = calcularPromedio(
+    resenas.map((r) => r.puntuacion),
+  );
+
   const atributosActivos = Object.entries(lugar.atributos ?? {}).filter(
     ([, v]) => v === true,
   );
@@ -120,8 +137,17 @@ export default async function LocalPage({
             <ShareButton title={lugar.nombre} text={lugar.descripcion ?? ""} />
           </div>
 
-          <div className="mt-3">
+          <div className="mt-3 flex items-center gap-3 flex-wrap">
             <EstadoBadgeLive horarios={lugar.horarios} />
+            {total > 0 && (
+              <span className="inline-flex items-center gap-1 text-sm">
+                <EstrellasDisplay puntuacion={Math.round(promedio)} size={14} />
+                <span className="text-foreground/80 font-medium">
+                  {promedio.toFixed(1)}
+                </span>
+                <span className="text-foreground/60">({total})</span>
+              </span>
+            )}
           </div>
 
           {lugar.descripcion && (
@@ -130,6 +156,18 @@ export default async function LocalPage({
             </p>
           )}
         </div>
+
+        <Seccion titulo="Reseñas">
+          <ResenasSeccion
+            lugarId={lugar.id}
+            slug={lugar.slug}
+            resenas={resenas}
+            currentUserId={currentUser?.id ?? null}
+            userResena={userResena}
+            promedio={promedio}
+            total={total}
+          />
+        </Seccion>
 
         <Seccion titulo="Horarios">
           <div className="rounded-card border border-foreground/10 bg-card overflow-hidden">

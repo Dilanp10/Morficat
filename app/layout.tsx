@@ -3,6 +3,8 @@ import "./globals.css";
 import { BottomNav } from "@/components/BottomNav";
 import { SplashScreen } from "@/components/SplashScreen";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { WelcomeOverlay } from "@/components/WelcomeOverlay";
+import { getCurrentUser } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "MorfiCat — Comer y tomar en Catamarca",
@@ -39,11 +41,13 @@ export const viewport: Viewport = {
 
 const themeInitScript = `(function(){try{var t=localStorage.getItem('morficat-theme');var d=t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const user = await getCurrentUser();
+
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
@@ -53,6 +57,7 @@ export default function RootLayout({
         <ThemeProvider>
           <SplashScreen />
           {children}
+          <WelcomeOverlay isAuthenticated={!!user} />
           <BottomNav />
         </ThemeProvider>
       </body>

@@ -8,6 +8,7 @@ export type LugarPublic = Lugar & {
     "dia_semana" | "hora_apertura" | "hora_cierre" | "cerrado" | "cruza_medianoche"
   >[];
   tipos_comida: Pick<TipoComida, "slug" | "nombre">[];
+  resenas: { puntuacion: number }[];
 };
 
 export type CategoriaPublic = Pick<Categoria, "id" | "slug" | "nombre" | "emoji">;
@@ -19,7 +20,8 @@ export async function listarLugaresActivos(): Promise<LugarPublic[]> {
       `*,
        categoria:categorias(nombre, slug, emoji),
        horarios(dia_semana, hora_apertura, hora_cierre, cerrado, cruza_medianoche),
-       tipos_comida(slug, nombre)`,
+       tipos_comida(slug, nombre),
+       resenas(puntuacion)`,
     )
     .eq("activo", true)
     .order("nombre", { ascending: true });
@@ -36,7 +38,8 @@ export async function obtenerLugarPorSlug(
       `*,
        categoria:categorias(nombre, slug, emoji),
        horarios(dia_semana, hora_apertura, hora_cierre, cerrado, cruza_medianoche),
-       tipos_comida(slug, nombre)`,
+       tipos_comida(slug, nombre),
+       resenas(puntuacion)`,
     )
     .eq("slug", slug)
     .eq("activo", true)
