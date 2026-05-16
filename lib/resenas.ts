@@ -13,29 +13,36 @@ export type ResenaPublica = {
 export async function listarResenasPorLugar(
   lugarId: string,
 ): Promise<ResenaPublica[]> {
-  const { data, error } = await supabase
+  // Paso 1: obtener las reseñas (sin embed de profiles — no hay FK directa
+  // entre resenas y profiles; ambas referencian auth.users).
+  const { data: reviews, error: revErr } = await supabase
     .from("resenas")
-    .select(
-      "id, puntuacion, comentario, created_at, user_id, profile:profiles(display_name)",
-    )
+    .select("id, puntuacion, comentario, created_at, user_id")
     .eq("lugar_id", lugarId)
     .order("created_at", { ascending: false });
-  if (error) throw error;
-  type Row = {
-    id: string;
-    puntuacion: number;
-    comentario: string | null;
-    created_at: string;
-    user_id: string;
-    profile: { display_name: string } | null;
-  };
-  return ((data ?? []) as unknown as Row[]).map((r) => ({
-    id: r.id,
-    puntuacion: r.puntuacion,
-    comentario: r.comentario,
-    created_at: r.created_at,
-    user_id: r.user_id,
-    autor_nombre: r.profile?.display_name ?? "Usuario",
+  if (revErr) throw revErr;
+  if (!reviews || reviews.length === 0) return [];
+
+  // Paso 2: obtener los profiles de los autores en un solo round-trip.
+  const userIds = Array.from(new Set(reviews.map((r) => r.user_id)));
+  const { data: profiles, error: profErr } = await supabase
+    .from("profiles")
+    .select("id, display_name")
+    .in("id", userIds);
+  if (profErr) throw profErr;
+
+  const nombrePorId = new Map<string, string>();
+  for (const p of profiles ?? []) {
+    nombrePorId.set(p.id as string, p.display_name as string);
+  }
+
+  return reviews.map((r) => ({
+    id: r.id as string,
+    puntuacion: r.puntuacion as number,
+    comentario: r.comentario as string | null,
+    created_at: r.created_at as string,
+    user_id: r.user_id as string,
+    autor_nombre: nombrePorId.get(r.user_id as string) ?? "Usuario",
   }));
 }
 
