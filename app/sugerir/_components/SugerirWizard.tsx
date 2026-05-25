@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, MailCheck } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2, MailCheck, MapPin } from "lucide-react";
 import Link from "next/link";
 import { useState, useTransition } from "react";
 import { AudioRecorder } from "./AudioRecorder";
@@ -28,7 +28,7 @@ type State = {
   direccion: string;
   comentario: string;
   email: string;
-  foto: File | null;
+  fotos: File[];
   audio: File | null;
 };
 
@@ -40,7 +40,7 @@ const INITIAL: State = {
   direccion: "",
   comentario: "",
   email: "",
-  foto: null,
+  fotos: [],
   audio: null,
 };
 
@@ -54,6 +54,8 @@ export function SugerirWizard() {
   const [pending, startTransition] = useTransition();
   const [done, setDone] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  const [gpsLoading, setGpsLoading] = useState(false);
+  const [gpsError, setGpsError] = useState<string | null>(null);
 
   const next = () => setStep((s) => Math.min(s + 1, STEPS_COUNT));
   const back = () => setStep((s) => Math.max(s - 1, 0));
@@ -71,7 +73,7 @@ export function SugerirWizard() {
       fd.set("direccion", data.direccion.trim());
       fd.set("comentario", data.comentario.trim());
       fd.set("email", data.email.trim());
-      if (data.foto) fd.set("foto", data.foto);
+      data.fotos.forEach((f, i) => fd.set(`foto_${i}`, f));
       if (data.audio) fd.set("audio", data.audio);
       const r = await enviarSugerencia(fd);
       if (r.ok) setDone(true);
@@ -211,16 +213,73 @@ export function SugerirWizard() {
               placeholder="Ej: Rivadavia 500, Centro"
               className={inputCls}
             />
+            <button
+              type="button"
+              disabled={gpsLoading}
+              onClick={() => {
+                if (!navigator.geolocation) {
+                  setGpsError("Tu dispositivo no soporta GPS.");
+                  return;
+                }
+                setGpsLoading(true);
+                setGpsError(null);
+                navigator.geolocation.getCurrentPosition(
+                  async (pos) => {
+                    const { latitude: lat, longitude: lng } = pos.coords;
+                    try {
+                      const res = await fetch(
+                        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,
+                        { headers: { "Accept-Language": "es" } },
+                      );
+                      const json = await res.json();
+                      const a = json.address ?? {};
+                      const partes = [
+                        a.road,
+                        a.house_number,
+                        a.suburb ?? a.neighbourhood ?? a.village ?? a.town,
+                      ].filter(Boolean);
+                      const legible = partes.length
+                        ? partes.join(", ")
+                        : json.display_name;
+                      setData((d) => ({ ...d, direccion: legible }));
+                    } catch {
+                      setData((d) => ({
+                        ...d,
+                        direccion: `${lat.toFixed(5)}, ${lng.toFixed(5)}`,
+                      }));
+                    } finally {
+                      setGpsLoading(false);
+                    }
+                  },
+                  () => {
+                    setGpsError("No pudimos obtener tu ubicación. Activá el GPS.");
+                    setGpsLoading(false);
+                  },
+                  { enableHighAccuracy: false, timeout: 8000 },
+                );
+              }}
+              className="mt-2 inline-flex items-center gap-2 rounded-pill bg-card ring-1 ring-foreground/15 px-4 py-2 text-sm text-foreground hover:ring-terracota/50 disabled:opacity-50 transition-all"
+            >
+              {gpsLoading ? (
+                <Loader2 size={14} className="animate-spin" />
+              ) : (
+                <MapPin size={14} />
+              )}
+              {gpsLoading ? "Obteniendo ubicación..." : "Usar mi ubicación actual"}
+            </button>
+            {gpsError && (
+              <p className="text-xs text-danger mt-1">{gpsError}</p>
+            )}
           </Step>
         )}
 
         {step === 3 && (
           <Step
-            titulo="¿Tenés una foto?"
-            sub="Una imagen del frente o el ambiente nos ayuda un montón."
+            titulo="¿Tenés fotos?"
+            sub="Una imagen del frente o el ambiente nos ayuda un montón. Podés mandar hasta 3."
           >
             <PhotoPicker
-              onChange={(f) => setData((d) => ({ ...d, foto: f }))}
+              onChange={(files) => setData((d) => ({ ...d, fotos: files }))}
             />
           </Step>
         )}

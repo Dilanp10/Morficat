@@ -75,9 +75,16 @@ export async function enviarSugerencia(
   let foto_url: string | null = null;
   let audio_url: string | null = null;
   try {
-    const foto = formData.get("foto");
-    if (foto instanceof File && foto.size > 0) {
-      foto_url = await uploadToSugerenciasBucket(foto, "foto");
+    const fotoFiles: File[] = [];
+    for (let i = 0; i < 3; i++) {
+      const f = formData.get(`foto_${i}`);
+      if (f instanceof File && f.size > 0) fotoFiles.push(f);
+    }
+    if (fotoFiles.length > 0) {
+      const urls = await Promise.all(
+        fotoFiles.map((f) => uploadToSugerenciasBucket(f, "foto")),
+      );
+      foto_url = urls.join("|");
     }
     const audio = formData.get("audio");
     if (audio instanceof File && audio.size > 0) {
