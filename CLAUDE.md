@@ -1,6 +1,6 @@
-# MorfiCat — Spec-Driven Development (SDD)
+# Haku — Spec-Driven Development (SDD)
 
-> **Fuente de verdad** para el desarrollo de MorfiCat.
+> **Fuente de verdad** para el desarrollo de Haku.
 > Todo lo documentado aquí fue definido mediante entrevista guiada SDD.
 > No implementar nada que contradiga este documento sin actualizar primero el spec.
 
@@ -12,14 +12,14 @@
 
 | Campo | Valor |
 |---|---|
-| **Nombre** | MorfiCat |
+| **Nombre** | Haku |
 | **Categoría** | App de descubrimiento gastronómico hiperlocal |
 | **Ubicación inicial** | Catamarca, Argentina |
 | **Plataforma** | Web app responsive (PWA), mobile-first |
 
 ### 1.2 Visión
 
-MorfiCat es una app móvil hiperlocal que ayuda a los habitantes y visitantes de Catamarca a descubrir rápidamente dónde comer y tomar algo, con foco principal en saber qué locales están abiertos en este momento. A diferencia de Google Maps, MorfiCat se enfoca exclusivamente en gastronomía catamarqueña con información curada, confiable y con experiencia móvil moderna.
+Haku es una app móvil hiperlocal que ayuda a los habitantes y visitantes de Catamarca a descubrir rápidamente dónde comer y tomar algo, con foco principal en saber qué locales están abiertos en este momento. A diferencia de Google Maps, Haku se enfoca exclusivamente en gastronomía catamarqueña con información curada, confiable y con experiencia móvil moderna.
 
 ### 1.3 Dolor protagonista del MVP
 
@@ -158,7 +158,7 @@ Funcionalidades que la arquitectura debe soportar a futuro:
 
 - Mantiene todo lo de v1.0.
 - Agrega capa opt-in de cuentas: la app sigue funcionando 100% sin login (modo invitado).
-- Welcome overlay aparece sólo la primera visita; persiste la elección en `localStorage` (`morficat_welcomed`).
+- Welcome overlay aparece sólo la primera visita; persiste la elección en `localStorage` (`haku_welcomed`).
 - Reseñas + puntuación gated por email verificado.
 - Objetivo: empezar a construir comunidad sin sacrificar el "0 fricción" del MVP.
 
@@ -478,7 +478,7 @@ Supabase: lugares (activo=true) → id, nombre, slug, lat, lng, categoria_id
 
 ## 8. Módulo Crítico: Lógica de Horarios (`horarios.ts`)
 
-Este es el corazón técnico de MorfiCat. La función `estaAbierto(lugar, horarios)` debe manejar correctamente:
+Este es el corazón técnico de Haku. La función `estaAbierto(lugar, horarios)` debe manejar correctamente:
 
 | Caso | Ejemplo | Comportamiento |
 |---|---|---|
@@ -509,7 +509,7 @@ Este es el corazón técnico de MorfiCat. La función `estaAbierto(lugar, horari
 
 ```
 ┌─────────────────────────────────┐
-│ MorfiCat                   [🗺️] │  ← Ícono mapa en header
+│ Haku                   [🗺️] │  ← Ícono mapa en header
 ├─────────────────────────────────┤
 │ 🔍 Buscar lugar...              │  ← Barra de búsqueda
 ├─────────────────────────────────┤
@@ -529,7 +529,7 @@ Este es el corazón técnico de MorfiCat. La función `estaAbierto(lugar, horari
 | Elemento | Contenido |
 |---|---|
 | **Bottom nav** | Home · Buscar · Mapa · Más |
-| **Menú "Más"** | Admin (protegido), Sobre MorfiCat, Sugerir un local |
+| **Menú "Más"** | Admin (protegido), Sobre Haku, Sugerir un local |
 | **Ficha del local** | Pantalla completa nueva (navegación clásica, no bottom sheet) |
 
 ### 9.4 Tarjeta de local (LocalCard)
@@ -615,7 +615,7 @@ Botones con `bg-terracota` siempre usan `text-white` (no `text-foreground`) para
 
 ### 10.3 Reglas de diseño
 
-1. **Dark + Light mode** — implementados con tokens semánticos vía CSS variables (`--background`, `--foreground`, `--card`, `--muted`). El usuario alterna desde `/mas` (claro / oscuro). En la primera visita el default es la preferencia del sistema (`prefers-color-scheme`); después se respeta la elección guardada en `localStorage` (`morficat-theme`). Inline script en `<head>` previene FOUC.
+1. **Dark + Light mode** — implementados con tokens semánticos vía CSS variables (`--background`, `--foreground`, `--card`, `--muted`). El usuario alterna desde `/mas` (claro / oscuro). En la primera visita el default es la preferencia del sistema (`prefers-color-scheme`); después se respeta la elección guardada en `localStorage` (`haku-theme`). Inline script en `<head>` previene FOUC.
 2. **Color principal terracota** (`#E07B4C`) en todos los elementos interactivos, igual en ambos modos (es identidad de marca).
 3. **Fondos cálidos en ambos modos** — dark `#1A1A1A` (warm dark), light `#FAFAF8` (warm off-white). Nunca negro puro `#000` ni blanco puro `#FFF`.
 4. **Tipografía**: system fonts (`-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`).
@@ -718,7 +718,7 @@ ADMIN_PASSWORD=...
 ## 13. Estructura de Carpetas
 
 ```
-morficat/
+haku/
 ├── app/
 │   ├── page.tsx                    # Home (lista)
 │   ├── layout.tsx                  # Layout global + PWA meta + bottom nav
@@ -871,8 +871,8 @@ morficat/
 ### Fase 6 — Navegación y Polish (~6 horas)
 
 - [ ] Crear componente `BottomNav` (Home, Buscar, Mapa, Más).
-- [ ] Crear menú "Más" (Admin, Sobre MorfiCat, Sugerir local).
-- [ ] Crear página "Sobre MorfiCat" (estática).
+- [ ] Crear menú "Más" (Admin, Sobre Haku, Sugerir local).
+- [ ] Crear página "Sobre Haku" (estática).
 - [ ] Configurar PWA: manifest.json + service worker + iconos.
 - [ ] Aplicar dark mode completo con paleta terracota.
 - [ ] Responsive testing y ajustes.

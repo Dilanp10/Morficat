@@ -40,12 +40,12 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata> {
   const lugar = await obtenerLugarPorSlug(params.slug);
-  if (!lugar) return { title: "Lugar no encontrado — MorfiCat" };
+  if (!lugar) return { title: "Lugar no encontrado — Haku" };
   const description =
     lugar.descripcion ??
     `${lugar.nombre}${lugar.barrio ? ` en ${lugar.barrio}, Catamarca` : " en Catamarca"}`;
   return {
-    title: `${lugar.nombre} — MorfiCat`,
+    title: `${lugar.nombre} — Haku`,
     description,
     openGraph: {
       title: lugar.nombre,

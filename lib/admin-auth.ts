@@ -3,7 +3,7 @@
 // El secret es ADMIN_PASSWORD: si la contraseña rota, todas las sesiones se invalidan.
 
 const SESSION_DAYS = 7;
-export const ADMIN_COOKIE_NAME = "morficat_admin";
+export const ADMIN_COOKIE_NAME = "haku_admin";
 
 const enc = new TextEncoder();
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const SESSION_KEY = "morficat_splash_shown";
+const SESSION_KEY = "haku_splash_shown";
 const HOLD_MS = 700;
 const FADE_MS = 300;
 
@@ -38,8 +38,13 @@ export function SplashScreen() {
         fading ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
     >
-      <div className="text-white text-6xl sm:text-7xl font-extrabold tracking-tight">
-        MorfiCat
+      <div className="text-center">
+        <div className="text-white text-6xl sm:text-7xl font-extrabold tracking-tight">
+          Haku
+        </div>
+        <div className="text-white/60 text-sm tracking-widest uppercase mt-2">
+          vamos
+        </div>
       </div>
     </div>
   );

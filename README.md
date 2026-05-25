@@ -1,6 +1,6 @@
-# MorfiCat
+# Haku
 
-App hiperlocal de descubrimiento gastronómico para Catamarca. **Spec-Driven Development** — la fuente de verdad es [`CLAUDE.md`](./CLAUDE.md).
+*Haku* significa "vamos" en quechua — app hiperlocal de descubrimiento gastronómico para Catamarca. **Spec-Driven Development** — la fuente de verdad es [`CLAUDE.md`](./CLAUDE.md).
 
 ## Stack
 

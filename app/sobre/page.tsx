@@ -12,18 +12,28 @@ export default function SobrePage() {
         Volver
       </Link>
 
-      <h1 className="text-2xl font-bold text-terracota mb-5">Sobre MorfiCat</h1>
+      <h1 className="text-2xl font-bold text-terracota mb-1">Sobre Haku</h1>
+      <p className="text-xs tracking-widest uppercase text-terracota-soft/70 mb-5">
+        &ldquo;vamos&rdquo; en quechua
+      </p>
 
       <div className="prose prose-invert max-w-none space-y-4 text-foreground/80">
         <p>
-          <strong className="text-foreground">MorfiCat</strong> es una app
+          <strong className="text-foreground">Haku</strong> es una app
           hiperlocal de descubrimiento gastronómico para Catamarca. La hicimos
           para responder rápido a la pregunta más común cuando salís a comer o
           tomar algo: <em>¿qué está abierto ahora?</em>
         </p>
 
         <p>
-          A diferencia de Google Maps, MorfiCat se enfoca exclusivamente en
+          El nombre viene del quechua, la lengua que se habló en estas tierras
+          antes de que Catamarca fuera Catamarca. <em>Haku</em> significa
+          &ldquo;vamos&rdquo; — porque eso es exactamente lo que hace la app: te ayuda a
+          decidir adónde ir.
+        </p>
+
+        <p>
+          A diferencia de Google Maps, Haku se enfoca exclusivamente en
           gastronomía catamarqueña, con información curada y verificada, y una
           experiencia móvil simple. Incluye locales chicos que muchas veces no
           tienen presencia digital.

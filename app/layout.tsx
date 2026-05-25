@@ -7,21 +7,21 @@ import { WelcomeOverlay } from "@/components/WelcomeOverlay";
 import { getCurrentUser } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "MorfiCat — Comer y tomar en Catamarca",
+  title: "Haku — Comer y tomar en Catamarca",
   description:
     "Descubrí qué locales están abiertos ahora en Catamarca para comer o tomar algo.",
   manifest: "/manifest.json",
-  applicationName: "MorfiCat",
+  applicationName: "Haku",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "MorfiCat",
+    title: "Haku",
   },
   other: {
     "mobile-web-app-capable": "yes",
   },
   openGraph: {
-    title: "MorfiCat",
+    title: "Haku",
     description: "¿Qué está abierto ahora en Catamarca?",
     locale: "es_AR",
     type: "website",
@@ -39,7 +39,7 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
-const themeInitScript = `(function(){try{var t=localStorage.getItem('morficat-theme');var d=t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
+const themeInitScript = `(function(){try{var t=localStorage.getItem('haku-theme');var d=t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
 
 export default async function RootLayout({
   children,

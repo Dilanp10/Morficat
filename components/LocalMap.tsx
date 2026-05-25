@@ -28,7 +28,7 @@ function pinSvg(color: string): string {
 function buildIcon(color: string) {
   return L.divIcon({
     html: pinSvg(color),
-    className: "morficat-pin",
+    className: "haku-pin",
     iconSize: [28, 36],
     iconAnchor: [14, 36],
     popupAnchor: [0, -32],

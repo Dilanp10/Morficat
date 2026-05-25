@@ -20,7 +20,7 @@ export default async function AdminPage() {
         className="inline-flex items-center gap-1 text-sm text-foreground/60 hover:text-foreground mb-4"
       >
         <ChevronLeft size={16} />
-        Volver a MorfiCat
+        Volver a Haku
       </Link>
 
       <header className="flex items-center justify-between mb-6">

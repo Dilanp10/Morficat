@@ -55,14 +55,14 @@ export default function AdminLoginPage({
         className="self-start inline-flex items-center gap-1 text-sm text-foreground/60 hover:text-foreground mb-6"
       >
         <ChevronLeft size={16} />
-        Volver a MorfiCat
+        Volver a Haku
       </Link>
 
       <form
         action={loginAction}
         className="w-full max-w-sm rounded-card border border-foreground/10 bg-card p-6"
       >
-        <h1 className="text-2xl font-bold text-terracota">MorfiCat · Admin</h1>
+        <h1 className="text-2xl font-bold text-terracota">Haku · Admin</h1>
         <p className="text-foreground/60 text-sm mt-1">
           Ingresá la contraseña para administrar lugares.
         </p>

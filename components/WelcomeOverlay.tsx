@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const STORAGE_KEY = "morficat_welcomed";
+const STORAGE_KEY = "haku_welcomed";
 
 export function WelcomeOverlay({ isAuthenticated }: { isAuthenticated: boolean }) {
   const [visible, setVisible] = useState(false);
@@ -39,10 +39,13 @@ export function WelcomeOverlay({ isAuthenticated }: { isAuthenticated: boolean }
             id="welcome-title"
             className="text-5xl font-black tracking-tight text-terracota"
           >
-            MorfiCat
+            Haku
           </h1>
+          <p className="text-xs tracking-widest uppercase text-terracota-soft/70 mt-1">
+            vamos · quechua
+          </p>
           <p className="text-foreground/70 mt-3">
-            Encontrá los mejores lugares para morfar o tomar algo en Catamarca.
+            Encontrá los mejores lugares para comer o tomar algo en Catamarca.
           </p>
         </div>
 

@@ -18,12 +18,12 @@ const ITEMS = [
   {
     href: "/sugerir",
     label: "Sugerir un local",
-    descripcion: "¿Conocés un lugar que no está en MorfiCat?",
+    descripcion: "¿Conocés un lugar que no está en Haku?",
     icon: MessageSquarePlus,
   },
   {
     href: "/sobre",
-    label: "Sobre MorfiCat",
+    label: "Sobre Haku",
     descripcion: "Qué es la app y por qué la hicimos.",
     icon: Info,
   },
@@ -119,7 +119,7 @@ export default async function MasPage() {
       </ul>
 
       <p className="mt-8 text-xs text-foreground/35 text-center">
-        MorfiCat · Catamarca, Argentina
+        Haku · Catamarca, Argentina
       </p>
     </main>
   );

@@ -26,7 +26,7 @@ export default async function HomePage() {
             Catamarca
           </div>
           <h1 className="text-4xl font-black tracking-tight text-terracota leading-none">
-            MorfiCat
+            Haku
           </h1>
           <p className="text-foreground/70 mt-1.5 text-[15px]">
             ¿Qué está abierto ahora?

@@ -12,7 +12,7 @@ const pinSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="36" v
 
 const icon = L.divIcon({
   html: pinSvg,
-  className: "morficat-pin",
+  className: "haku-pin",
   iconSize: [28, 36],
   iconAnchor: [14, 36],
 });

@@ -10,7 +10,7 @@ import {
 
 export type Theme = "light" | "dark";
 
-const STORAGE_KEY = "morficat-theme";
+const STORAGE_KEY = "haku-theme";
 
 type Ctx = {
   theme: Theme;
