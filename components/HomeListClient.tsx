@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { MapPin, MoonStar, SearchX } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { LocalCard, type LocalCardData } from "./LocalCard";
 import { SearchBar } from "./SearchBar";
 import { FiltrosChips } from "./FiltrosChips";
@@ -211,7 +211,6 @@ function EmptyState({
   hasQuery: boolean;
   onReset: () => void;
 }) {
-  const Icon = hasQuery ? SearchX : soloAbiertos ? MoonStar : SearchX;
   const titulo = hasQuery
     ? "No encontramos lugares con ese nombre."
     : soloAbiertos
