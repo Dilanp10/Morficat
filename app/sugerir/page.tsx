@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
-import { SugerenciaForm } from "./_components/SugerenciaForm";
+import { SugerirWizard } from "./_components/SugerirWizard";
 
 export default function SugerirPage() {
   return (
@@ -13,15 +13,15 @@ export default function SugerirPage() {
         Volver
       </Link>
 
-      <h1 className="text-2xl font-bold text-terracota mb-2">
+      <h1 className="text-2xl font-bold text-terracota mb-1">
         Sugerir un local
       </h1>
       <p className="text-sm text-foreground/60 mb-6">
-        Sumá un lugar que falta o avisanos si algo está mal cargado. Lo
-        revisamos a mano.
+        Solo te pedimos el nombre. El resto es opcional — incluso podés mandar
+        un audio.
       </p>
 
-      <SugerenciaForm />
+      <SugerirWizard />
     </main>
   );
 }
