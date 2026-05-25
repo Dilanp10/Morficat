@@ -1,6 +1,4 @@
 import nextDynamic from "next/dynamic";
-import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
 import { listarLugaresActivos } from "@/lib/lugares-public";
 
 export const dynamic = "force-dynamic";
@@ -12,7 +10,10 @@ const LocalMap = nextDynamic(() => import("@/components/LocalMap"), {
 
 function MapaSkeleton() {
   return (
-    <div className="h-[calc(100vh-9rem)] w-full rounded-card bg-card animate-pulse" />
+    <div
+      className="h-[calc(100vh-80px)] w-full animate-pulse"
+      style={{ background: "var(--card-2)" }}
+    />
   );
 }
 
@@ -20,21 +21,22 @@ export default async function MapaPage() {
   const lugares = await listarLugaresActivos();
 
   return (
-    <main className="min-h-screen px-4 py-6 sm:px-6 max-w-3xl mx-auto">
-      <div className="flex items-center justify-between mb-4">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-1 text-sm text-foreground/60 hover:text-foreground"
-        >
-          <ChevronLeft size={16} />
-          Volver
-        </Link>
-        <span className="text-xs text-foreground/35">
-          {lugares.length} lugar{lugares.length === 1 ? "" : "es"}
-        </span>
+    <main className="relative" style={{ height: "calc(100vh - 80px)" }}>
+      {/* Overlay header */}
+      <div
+        className="absolute top-0 inset-x-0 z-10 flex items-center justify-between px-4 pt-4 pb-3 pointer-events-none"
+        style={{ background: "linear-gradient(to bottom, rgba(27,22,18,0.85) 0%, transparent 100%)" }}
+      >
+        <div className="pointer-events-auto">
+          <p className="text-section">Mapa.</p>
+          <p
+            className="font-mono text-[11px] mt-0.5"
+            style={{ color: "var(--moss)" }}
+          >
+            {lugares.length} lugar{lugares.length === 1 ? "" : "es"} cargados
+          </p>
+        </div>
       </div>
-
-      <h1 className="text-2xl font-bold text-terracota mb-4">Mapa</h1>
 
       <LocalMap lugares={lugares} />
     </main>

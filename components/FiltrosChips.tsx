@@ -22,15 +22,11 @@ export function FiltrosChips({
 }) {
   return (
     <div className="-mx-4 sm:-mx-6 px-4 sm:px-6 overflow-x-auto">
-      <div className="flex items-center gap-2 min-w-max pb-1">
-        <Chip
-          active={soloAbiertos}
-          onClick={onToggleAbiertos}
-          activeColor="terracota"
-        >
+      <div className="flex items-center gap-4 min-w-max pb-1 pt-1">
+        <Chip active={soloAbiertos} onClick={onToggleAbiertos}>
           <span
-            className={`inline-block w-1.5 h-1.5 rounded-full ${
-              soloAbiertos ? "bg-white" : "bg-success"
+            className={`inline-block w-1.5 h-1.5 rounded-full shrink-0 ${
+              soloAbiertos ? "bg-moss" : "bg-moss/50"
             }`}
           />
           Abierto ahora
@@ -43,16 +39,15 @@ export function FiltrosChips({
             onClick={() =>
               onSelectCategoria(categoriaSlug === c.slug ? null : c.slug)
             }
-            activeColor="terracota"
           >
-            {c.emoji && <span>{c.emoji}</span>}
+            {c.emoji && <span className="text-sm">{c.emoji}</span>}
             {c.nombre}
           </Chip>
         ))}
 
         <Chip active={atributosCount > 0} onClick={onOpenAvanzados}>
           <Sliders size={12} />
-          Más {atributosCount > 0 && `· ${atributosCount}`}
+          Filtros {atributosCount > 0 && `· ${atributosCount}`}
         </Chip>
       </div>
     </div>
@@ -66,18 +61,22 @@ function Chip({
 }: {
   active: boolean;
   onClick: () => void;
-  activeColor?: "terracota";
   children: React.ReactNode;
 }) {
-  const cls = active
-    ? "bg-gradient-to-br from-terracota to-terracota-deep text-white ring-1 ring-terracota/40"
-    : "bg-card text-foreground/60 ring-1 ring-foreground/10 hover:text-foreground hover:ring-foreground/20";
   return (
     <button
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`inline-flex items-center gap-1.5 rounded-pill px-3.5 py-1.5 text-sm font-medium whitespace-nowrap transition-all duration-200 active:scale-95 ${cls}`}
+      className="inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-serif italic transition-all duration-200 active:opacity-70"
+      style={{
+        color: active ? "var(--terra)" : "var(--fg-50)",
+        textDecoration: active ? "underline" : "none",
+        textUnderlineOffset: "3px",
+        paddingBottom: "2px",
+        background: "none",
+        border: "none",
+      }}
     >
       {children}
     </button>

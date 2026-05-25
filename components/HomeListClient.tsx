@@ -127,8 +127,10 @@ export function HomeListClient({
 
   if (enriquecidos.length === 0) {
     return (
-      <div className="rounded-card border border-foreground/10 bg-card p-8 text-center">
-        <p className="text-foreground/60">Todavía no hay lugares cargados.</p>
+      <div className="py-16 text-center">
+        <p style={{ color: "var(--fg-30)", fontFamily: "var(--font-serif)", fontStyle: "italic" }}>
+          Todavía no hay lugares cargados.
+        </p>
       </div>
     );
   }
@@ -154,20 +156,25 @@ export function HomeListClient({
         onClose={() => setFiltrosAbiertos(false)}
       />
 
-      <div className="flex items-center justify-between gap-3 text-xs text-foreground/35">
+      <div
+        className="flex items-center justify-between gap-3 py-1"
+        style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--fg-30)" }}
+      >
+        <span>{filtrados.length} resultado{filtrados.length === 1 ? "" : "s"}</span>
         <span>
-          {filtrados.length} resultado{filtrados.length === 1 ? "" : "s"}
-        </span>
-        <span>
-          {totalAbiertos} de {enriquecidos.length} abierto
-          {totalAbiertos === 1 ? "" : "s"}
+          <span style={{ color: "var(--moss)" }}>{totalAbiertos}</span>
+          {" "}abierto{totalAbiertos === 1 ? "" : "s"}
+          {" · "}{enriquecidos.length} total
         </span>
       </div>
 
       {gpsState === "denied" && (
-        <div className="rounded-card border border-foreground/10 bg-card px-3 py-2 text-xs text-foreground/60 flex items-center gap-2">
-          <MapPin size={14} />
-          Activá la ubicación del navegador para ver distancias.
+        <div
+          className="rounded-button px-3 py-2 text-xs flex items-center gap-2"
+          style={{ background: "var(--card-2)", color: "var(--fg-50)", border: "1px solid var(--line)" }}
+        >
+          <MapPin size={13} />
+          Activá la ubicación para ver distancias.
         </div>
       )}
 
@@ -183,7 +190,7 @@ export function HomeListClient({
           }}
         />
       ) : (
-        <ul className="space-y-3">
+        <ul>
           {filtrados.map(({ card }, idx) => (
             <li key={card.slug}>
               <LocalCard data={card} priority={idx === 0} />
@@ -216,16 +223,23 @@ function EmptyState({
       ? "Tocá 'Limpiar filtros' para ver todos."
       : null;
   return (
-    <div className="rounded-card border border-foreground/10 bg-card p-8 text-center animate-fade-in-up">
-      <div className="mx-auto mb-3 inline-flex items-center justify-center size-12 rounded-pill bg-terracota/15 text-terracota">
-        <Icon size={22} />
-      </div>
-      <p className="text-foreground font-medium">{titulo}</p>
-      {sub && <p className="text-foreground/60 text-sm mt-1">{sub}</p>}
+    <div className="py-16 text-center animate-fade-in-up">
+      <p
+        className="font-serif italic text-xl"
+        style={{ color: "var(--fg-50)" }}
+      >
+        {titulo}
+      </p>
+      {sub && (
+        <p className="text-sm mt-1" style={{ color: "var(--fg-30)" }}>
+          {sub}
+        </p>
+      )}
       <button
         type="button"
         onClick={onReset}
-        className="mt-5 rounded-button bg-terracota px-4 py-2 text-sm font-medium text-white hover:bg-terracota-deep transition-colors"
+        className="mt-6 rounded-button px-4 py-2 text-sm font-medium transition-colors"
+        style={{ background: "var(--terra)", color: "#1B1612" }}
       >
         Limpiar filtros
       </button>

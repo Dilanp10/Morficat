@@ -46,9 +46,14 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Navegación principal"
-      className="fixed bottom-0 inset-x-0 z-40 border-t border-foreground/10 bg-background/95 backdrop-blur safe-pb"
+      className="fixed bottom-0 inset-x-0 z-40 safe-pb"
+      style={{
+        background: "var(--bg-deep)",
+        borderTop: "1px solid var(--line)",
+        height: "var(--bottom-nav-height, 80px)",
+      }}
     >
-      <ul className="mx-auto flex max-w-2xl items-stretch">
+      <ul className="mx-auto flex h-full max-w-2xl items-stretch">
         {TABS.map((t) => {
           const active = t.isActive(pathname);
           const Icon = t.icon;
@@ -56,19 +61,28 @@ export function BottomNav() {
             <li key={t.href} className="flex-1">
               <Link
                 href={t.href}
-                className={`relative flex flex-col items-center gap-0.5 py-2.5 text-[11px] font-medium transition-colors ${
-                  active ? "text-terracota" : "text-foreground/60 hover:text-foreground"
-                }`}
+                className="relative flex flex-col items-center justify-center h-full gap-1 transition-opacity"
+                style={{ color: active ? "var(--terra)" : "var(--fg-30)" }}
                 aria-current={active ? "page" : undefined}
               >
                 {active && (
                   <span
                     aria-hidden
-                    className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-8 rounded-b-full bg-gradient-to-r from-terracota to-terracota-deep"
+                    className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full"
+                    style={{ background: "var(--terra)", marginTop: "-1px" }}
                   />
                 )}
-                <Icon size={20} strokeWidth={active ? 2.4 : 2} />
-                <span>{t.label}</span>
+                <Icon
+                  size={20}
+                  strokeWidth={active ? 2 : 1.6}
+                  style={{ color: active ? "var(--terra)" : "var(--fg-30)" }}
+                />
+                <span
+                  className="text-[11px] font-serif italic"
+                  style={{ color: active ? "var(--terra)" : "var(--fg-50)" }}
+                >
+                  {t.label}
+                </span>
               </Link>
             </li>
           );

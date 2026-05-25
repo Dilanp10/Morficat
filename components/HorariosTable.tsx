@@ -17,7 +17,7 @@ export function HorariosTable({ horarios }: { horarios: HorarioInput[] }) {
   const hoy = diaActualEnArgentina();
 
   return (
-    <table className="w-full text-sm">
+    <table className="w-full">
       <tbody>
         {ORDEN_DIAS.map((d) => {
           const turnos = horariosDelDia(horarios, d).filter((h) => !h.cerrado);
@@ -25,33 +25,39 @@ export function HorariosTable({ horarios }: { horarios: HorarioInput[] }) {
           return (
             <tr
               key={d}
-              className={`border-b border-foreground/10 last:border-0 ${
-                esHoy ? "bg-terracota/10" : ""
-              }`}
+              className="row-sep last:border-b-0"
             >
               <td
-                className={`px-3 py-2.5 align-top ${
-                  esHoy ? "font-semibold text-terracota" : "text-foreground/80"
-                }`}
+                className="py-2.5 pr-4 align-top text-sm"
+                style={{ color: esHoy ? "var(--terra)" : "var(--fg-70)" }}
               >
                 {DIAS_SEMANA[d]}
                 {esHoy && (
-                  <span className="ml-1.5 text-[10px] uppercase tracking-wide">
+                  <span
+                    className="ml-2 font-mono text-[10px] tracking-widest uppercase"
+                    style={{ color: "var(--terra)" }}
+                  >
                     hoy
                   </span>
                 )}
               </td>
-              <td className="px-3 py-2.5 text-right text-foreground/80">
+              <td
+                className="py-2.5 text-right font-mono text-xs"
+                style={{ color: turnos.length === 0 ? "var(--fg-30)" : "var(--fg-70)" }}
+              >
                 {turnos.length === 0 ? (
-                  <span className="text-foreground/35">Cerrado</span>
+                  "cerrado"
                 ) : (
                   <div className="space-y-0.5">
                     {turnos.map((t, i) => (
                       <div key={i}>
-                        {format(t.hora_apertura)} – {format(t.hora_cierre)}
+                        {format(t.hora_apertura)}–{format(t.hora_cierre)}
                         {t.cruza_medianoche && (
-                          <span className="ml-1 text-[10px] text-foreground/35">
-                            +1 día
+                          <span
+                            className="ml-1 text-[10px]"
+                            style={{ color: "var(--fg-30)" }}
+                          >
+                            +1
                           </span>
                         )}
                       </div>

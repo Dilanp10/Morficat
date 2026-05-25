@@ -27,55 +27,68 @@ export function WelcomeOverlay({ isAuthenticated }: { isAuthenticated: boolean }
       role="dialog"
       aria-modal="true"
       aria-labelledby="welcome-title"
-      className="fixed inset-0 z-[90] flex items-center justify-center p-6 bg-background/95 backdrop-blur-sm animate-fade-in-up"
+      className="fixed inset-0 z-[90] flex flex-col items-center justify-center p-8 animate-fade-in-up"
+      style={{ background: "var(--bg-deep)" }}
     >
-      <div className="w-full max-w-sm">
-        <div className="text-center">
-          <div className="inline-flex items-center gap-1 text-[10px] uppercase tracking-widest text-terracota-soft mb-3">
-            <span>✨</span>
-            <span>Catamarca</span>
-          </div>
-          <h1
-            id="welcome-title"
-            className="text-5xl font-black tracking-tight text-terracota"
-          >
-            Haku
-          </h1>
-          <p className="text-xs tracking-widest uppercase text-terracota-soft/70 mt-1">
-            vamos · quechua
-          </p>
-          <p className="text-foreground/70 mt-3">
-            Encontrá los mejores lugares para comer o tomar algo en Catamarca.
-          </p>
-        </div>
+      {/* Brand mark */}
+      <div className="flex-1 flex flex-col items-center justify-center text-center">
+        <p className="text-section mb-4">Catamarca · gastronomía</p>
+        <h1
+          id="welcome-title"
+          className="font-serif italic leading-none"
+          style={{ fontSize: "clamp(3rem,14vw,5rem)", color: "var(--terra)" }}
+        >
+          Haku.
+        </h1>
+        <p
+          className="font-mono text-xs tracking-widest mt-2"
+          style={{ color: "var(--fg-30)" }}
+        >
+          VAMOS · QUECHUA
+        </p>
+        <p
+          className="mt-5 text-sm leading-relaxed max-w-xs"
+          style={{ color: "var(--fg-50)", fontFamily: "var(--font-sans)" }}
+        >
+          Encontrá los mejores lugares para comer o tomar algo en Catamarca.
+        </p>
+      </div>
 
-        <div className="mt-8 space-y-3">
-          <Link
-            href="/signup"
-            onClick={dismiss}
-            className="block rounded-button bg-terracota px-4 py-3 text-center font-medium text-white hover:bg-terracota-deep transition-colors"
-          >
-            Crear cuenta
-          </Link>
-          <Link
-            href="/login"
-            onClick={dismiss}
-            className="block rounded-button border border-foreground/15 px-4 py-3 text-center font-medium text-foreground hover:bg-card transition-colors"
-          >
-            Ya tengo cuenta
-          </Link>
-          <button
-            type="button"
-            onClick={dismiss}
-            className="block w-full py-2 text-center text-sm text-foreground/60 hover:text-foreground transition-colors"
-          >
-            Continuar como invitado
-          </button>
-        </div>
-
-        <p className="text-xs text-foreground/35 text-center mt-6">
-          La cuenta es opcional. Sin login podés buscar y ver todo;
-          solo se necesita para dejar reseñas.
+      {/* Actions */}
+      <div className="w-full max-w-xs space-y-3 pb-8">
+        <Link
+          href="/signup"
+          onClick={dismiss}
+          className="block w-full rounded-button py-3.5 text-center text-sm font-semibold transition-opacity hover:opacity-90"
+          style={{ background: "var(--terra)", color: "var(--bg)" }}
+        >
+          Crear cuenta
+        </Link>
+        <Link
+          href="/login"
+          onClick={dismiss}
+          className="block w-full rounded-button py-3.5 text-center text-sm font-medium transition-opacity hover:opacity-80"
+          style={{
+            border: "1px solid var(--line-2)",
+            color: "var(--fg-70)",
+            background: "transparent",
+          }}
+        >
+          Ya tengo cuenta
+        </Link>
+        <button
+          type="button"
+          onClick={dismiss}
+          className="block w-full py-2.5 text-center text-sm transition-opacity hover:opacity-80"
+          style={{ color: "var(--fg-30)", fontFamily: "var(--font-serif)", fontStyle: "italic" }}
+        >
+          Continuar como invitado
+        </button>
+        <p
+          className="text-xs text-center pt-1"
+          style={{ color: "var(--fg-30)" }}
+        >
+          La cuenta es opcional — sin login podés buscar y ver todo.
         </p>
       </div>
     </div>

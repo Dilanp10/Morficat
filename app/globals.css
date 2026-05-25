@@ -4,87 +4,127 @@
 
 @layer base {
   :root {
-    color-scheme: light;
-    --bottom-nav-height: 64px;
-    /* Light: cálido warm white */
-    --background: 250 250 248;
-    --foreground: 26 26 26;
-    --card: 255 255 255;
-    --muted: 240 239 235;
+    color-scheme: dark;
+    --bottom-nav-height: 80px;
+
+    /* Tierra — dark warm (default, only dark mode in MVP) */
+    --bg:       #1B1612;
+    --bg-deep:  #14100D;
+    --card-bg:  #25201A;
+    --card-2:   #2E2820;
+    --muted-bg: #2E2820;
+    --line:     rgba(244,237,225,0.08);
+    --line-2:   rgba(244,237,225,0.14);
+
+    /* Brand palette */
+    --terra:      #D67849;
+    --terra-deep: #A85A30;
+    --terra-soft: #E89B6F;
+    --ochre:      #C99347;
+    --moss:       #8AA265;
+    --rust:       #C0664E;
+
+    /* Foreground as CSS variable for opacity variants */
+    --fg:       #F4EDE1;
+    --fg-70:    rgba(244,237,225,0.70);
+    --fg-50:    rgba(244,237,225,0.50);
+    --fg-30:    rgba(244,237,225,0.30);
   }
 
   .dark {
     color-scheme: dark;
-    --background: 26 26 26;
-    --foreground: 255 255 255;
-    --card: 36 36 36;
-    --muted: 46 46 46;
   }
 
   html,
   body {
-    background-color: rgb(var(--background));
-    color: rgb(var(--foreground));
+    background-color: var(--bg);
+    color: var(--fg);
   }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      sans-serif;
+    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
     -webkit-tap-highlight-color: transparent;
   }
 
-  button,
-  a {
+  button, a {
     -webkit-tap-highlight-color: transparent;
   }
 }
 
-/* Leaflet popup themed via CSS vars */
+/* ── Tierra utility classes ─────────────────────────────── */
+@layer utilities {
+  /* Serif italic brand text */
+  .text-brand {
+    font-family: var(--font-serif), Georgia, serif;
+    font-style: italic;
+  }
+  /* Mono data text */
+  .text-data {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+  }
+  /* Section label style */
+  .text-section {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-30);
+  }
+  /* Hairline row separator */
+  .row-sep {
+    border-bottom: 1px solid var(--line);
+  }
+}
+
+/* ── Leaflet themed ─────────────────────────────────────── */
 .leaflet-popup-content-wrapper {
-  background-color: rgb(var(--card)) !important;
-  color: rgb(var(--foreground)) !important;
-  border: 1px solid rgb(var(--foreground) / 0.1) !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+  background-color: var(--card-bg) !important;
+  color: var(--fg) !important;
+  border: 1px solid var(--line-2) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
   border-radius: 12px !important;
 }
 .leaflet-popup-tip {
-  background-color: rgb(var(--card)) !important;
+  background-color: var(--card-bg) !important;
   box-shadow: none !important;
 }
 .leaflet-popup-content {
   margin: 12px 14px !important;
-  color: rgb(var(--foreground)) !important;
+  color: var(--fg) !important;
   font-family: inherit !important;
 }
 .leaflet-popup-content a {
-  color: #e07b4c !important;
+  color: #D67849 !important;
 }
 .leaflet-popup-close-button {
-  color: rgb(var(--foreground) / 0.6) !important;
+  color: var(--fg-50) !important;
   font-size: 18px !important;
   padding: 6px 8px !important;
 }
 .leaflet-popup-close-button:hover {
-  color: rgb(var(--foreground)) !important;
+  color: var(--fg) !important;
   background: transparent !important;
 }
 .leaflet-container {
-  background-color: rgb(var(--background)) !important;
+  background-color: var(--bg) !important;
   font-family: inherit;
 }
 .leaflet-control-attribution {
-  background-color: rgb(var(--card) / 0.85) !important;
-  color: rgb(var(--foreground) / 0.6) !important;
+  background-color: rgba(20,16,13,0.85) !important;
+  color: var(--fg-50) !important;
 }
 .leaflet-control-attribution a {
-  color: #e07b4c !important;
+  color: #D67849 !important;
 }
 .haku-pin {
   background: transparent;
   border: none;
 }
 
+/* ── Utilities ──────────────────────────────────────────── */
 .safe-pb {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }

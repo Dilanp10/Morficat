@@ -19,10 +19,7 @@ export function SplashScreen() {
     sessionStorage.setItem(SESSION_KEY, "1");
 
     const fadeTimer = setTimeout(() => setFading(true), HOLD_MS);
-    const removeTimer = setTimeout(
-      () => setMounted(false),
-      HOLD_MS + FADE_MS,
-    );
+    const removeTimer = setTimeout(() => setMounted(false), HOLD_MS + FADE_MS);
     return () => {
       clearTimeout(fadeTimer);
       clearTimeout(removeTimer);
@@ -34,15 +31,22 @@ export function SplashScreen() {
   return (
     <div
       aria-hidden
-      className={`fixed inset-0 z-[100] flex items-center justify-center bg-terracota transition-opacity duration-300 ${
+      className={`fixed inset-0 z-[100] flex items-center justify-center transition-opacity duration-300 ${
         fading ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
+      style={{ background: "var(--bg-deep)" }}
     >
       <div className="text-center">
-        <div className="text-white text-6xl sm:text-7xl font-extrabold tracking-tight">
-          Haku
+        <div
+          className="font-serif italic leading-none"
+          style={{ fontSize: "clamp(3.5rem,14vw,5.5rem)", color: "var(--terra)" }}
+        >
+          Haku.
         </div>
-        <div className="text-white/60 text-sm tracking-widest uppercase mt-2">
+        <div
+          className="font-mono text-xs tracking-widest uppercase mt-3"
+          style={{ color: "var(--fg-30)" }}
+        >
           vamos
         </div>
       </div>

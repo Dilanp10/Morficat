@@ -14,7 +14,8 @@ export function ThemeToggle() {
     <div
       role="radiogroup"
       aria-label="Tema visual"
-      className="inline-flex rounded-pill border border-foreground/10 bg-card p-1"
+      className="inline-flex rounded-pill p-1 gap-1"
+      style={{ border: "1px solid var(--line-2)", background: "var(--card-2)" }}
     >
       {OPTIONS.map((o) => {
         const Icon = o.icon;
@@ -26,11 +27,11 @@ export function ThemeToggle() {
             role="radio"
             aria-checked={active}
             onClick={() => setTheme(o.value)}
-            className={`inline-flex items-center gap-1.5 rounded-pill px-4 py-1.5 text-sm font-medium transition-colors ${
-              active
-                ? "bg-terracota text-white"
-                : "text-foreground/60 hover:text-foreground"
-            }`}
+            className="inline-flex items-center gap-1.5 rounded-pill px-4 py-1.5 text-sm font-serif italic transition-all"
+            style={{
+              background: active ? "var(--terra)" : "transparent",
+              color: active ? "var(--bg)" : "var(--fg-50)",
+            }}
           >
             <Icon size={14} />
             {o.label}

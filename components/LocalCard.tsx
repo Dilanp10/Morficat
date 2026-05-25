@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Star } from "lucide-react";
 import { BadgeEstado } from "./BadgeEstado";
 import { formatearDistancia } from "@/lib/distancia";
 
@@ -25,59 +24,70 @@ export function LocalCard({
   data: LocalCardData;
   priority?: boolean;
 }) {
+  const distLabel =
+    data.distanciaKm !== null
+      ? formatearDistancia(data.distanciaKm)
+      : data.barrio ?? null;
+
   return (
     <Link
       href={`/local/${data.slug}`}
-      className="group flex gap-3 rounded-card border border-foreground/10 bg-card p-3 transition-all duration-200 hover:bg-muted hover:border-terracota/40 active:scale-[0.99] animate-fade-in-up"
+      className="group flex items-center gap-4 py-4 row-sep transition-opacity active:opacity-70 animate-fade-in-up"
     >
-      <div className="relative shrink-0 size-20 sm:size-24 overflow-hidden rounded-button bg-muted group-hover:ring-1 group-hover:ring-terracota/30 transition-shadow">
+      {/* Thumb */}
+      <div className="relative shrink-0 size-16 rounded-[10px] overflow-hidden bg-card-2">
         {data.imagen_principal ? (
           <Image
             src={data.imagen_principal}
             alt=""
             fill
-            sizes="(min-width: 640px) 96px, 80px"
+            sizes="64px"
             className="object-cover"
             priority={priority}
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-2xl text-foreground/35">
-            {data.categoria_emoji ?? "🍽️"}
+          <div
+            className="flex h-full w-full items-center justify-center text-xl font-serif italic"
+            style={{ color: "var(--fg-30)" }}
+          >
+            {data.nombre.charAt(0)}
           </div>
         )}
       </div>
 
+      {/* Text */}
       <div className="flex-1 min-w-0">
-        <h3 className="font-semibold text-foreground truncate group-hover:text-terracota-soft transition-colors">
-          {data.nombre}
-        </h3>
-        <p className="text-xs text-foreground/60 mt-0.5 truncate">
-          {[data.categoria_nombre, data.barrio].filter(Boolean).join(" · ")}
-        </p>
-        <div className="mt-2 flex items-center gap-2 flex-wrap">
-          <BadgeEstado abierto={data.abierto} />
-          {data.detalleHorario && (
-            <span className="text-xs text-foreground/60">{data.detalleHorario}</span>
-          )}
-          {data.ratingPromedio !== null && (
-            <span className="inline-flex items-center gap-0.5 text-xs text-foreground/60">
-              <Star size={12} className="fill-terracota text-terracota" />
-              <span className="text-foreground/80 font-medium">
-                {data.ratingPromedio.toFixed(1)}
-              </span>
-              <span>({data.ratingCount})</span>
-            </span>
-          )}
-          {(data.distanciaKm !== null || data.barrio) && (
-            <span className="inline-flex items-center gap-1 text-xs text-foreground/60">
-              <MapPin size={12} />
-              {data.distanciaKm !== null
-                ? formatearDistancia(data.distanciaKm)
-                : data.barrio}
+        <div className="flex items-baseline justify-between gap-2">
+          <h3
+            className="font-serif italic text-[19px] leading-tight truncate"
+            style={{ color: "var(--fg)" }}
+          >
+            {data.nombre}
+          </h3>
+          {distLabel && (
+            <span
+              className="font-mono text-[11px] shrink-0"
+              style={{ color: "var(--fg-30)" }}
+            >
+              {distLabel}
             </span>
           )}
         </div>
+        <p
+          className="text-xs mt-0.5 truncate"
+          style={{ color: "var(--fg-50)" }}
+        >
+          {[data.categoria_nombre, data.barrio].filter(Boolean).join(" · ")}
+        </p>
+        <div className="mt-1.5">
+          <BadgeEstado abierto={data.abierto} detalleHorario={data.detalleHorario} />
+        </div>
       </div>
+
+      {/* Chevron */}
+      <span className="text-xl shrink-0" style={{ color: "var(--fg-30)" }}>
+        ›
+      </span>
     </Link>
   );
 }

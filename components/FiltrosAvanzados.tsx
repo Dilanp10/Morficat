@@ -24,41 +24,51 @@ export function FiltrosAvanzados({
   };
 
   return (
-    <div className="rounded-card border border-foreground/10 bg-card p-4">
+    <div
+      className="rounded-card p-4 animate-fade-in-up"
+      style={{ background: "var(--card-bg)", border: "1px solid var(--line-2)" }}
+    >
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-sm font-semibold text-foreground">Filtros avanzados</h2>
+        <h2 className="text-section">Filtros</h2>
         <button
           type="button"
           onClick={onClose}
           aria-label="Cerrar filtros"
-          className="text-foreground/35 hover:text-foreground"
+          className="transition-opacity hover:opacity-70"
+          style={{ color: "var(--fg-30)" }}
         >
           <X size={16} />
         </button>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-        {Object.entries(ATRIBUTOS_LABELS).map(([key, label]) => (
-          <label
-            key={key}
-            className="flex items-center gap-2 text-sm text-foreground/80 cursor-pointer"
-          >
-            <input
-              type="checkbox"
-              checked={atributosOn.has(key)}
-              onChange={() => toggle(key)}
-              className="accent-terracota"
-            />
-            {label}
-          </label>
-        ))}
+      <div className="grid grid-cols-2 gap-y-3 gap-x-4 sm:grid-cols-3">
+        {Object.entries(ATRIBUTOS_LABELS).map(([key, label]) => {
+          const checked = atributosOn.has(key);
+          return (
+            <label
+              key={key}
+              className="flex items-center gap-2 text-sm cursor-pointer"
+              style={{ color: checked ? "var(--terra)" : "var(--fg-50)" }}
+            >
+              <input
+                type="checkbox"
+                checked={checked}
+                onChange={() => toggle(key)}
+                className="accent-terra"
+                style={{ accentColor: "var(--terra)" }}
+              />
+              {label}
+            </label>
+          );
+        })}
       </div>
 
       {atributosOn.size > 0 && (
         <button
           type="button"
           onClick={() => onChange(new Set())}
-          className="mt-3 text-xs text-foreground/60 hover:text-foreground"
+          className="mt-3 text-xs font-serif italic transition-opacity hover:opacity-80"
+          style={{ color: "var(--fg-30)" }}
         >
           Limpiar atributos
         </button>

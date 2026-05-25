@@ -3,13 +3,7 @@
 import { Check, Share2 } from "lucide-react";
 import { useState } from "react";
 
-export function ShareButton({
-  title,
-  text,
-}: {
-  title: string;
-  text?: string;
-}) {
+export function ShareButton({ title, text }: { title: string; text?: string }) {
   const [copied, setCopied] = useState(false);
 
   async function handleClick() {
@@ -19,7 +13,7 @@ export function ShareButton({
         await navigator.share({ title, text, url });
         return;
       } catch {
-        // user cancelled or unsupported, fall through to clipboard
+        // user cancelled, fall through
       }
     }
     try {
@@ -36,19 +30,11 @@ export function ShareButton({
       type="button"
       onClick={handleClick}
       aria-label="Compartir"
-      className="inline-flex items-center gap-1.5 rounded-button border border-foreground/10 px-3 py-1.5 text-sm text-foreground/60 hover:bg-muted hover:text-foreground transition-colors"
+      className="inline-flex items-center gap-1.5 rounded-button px-3 py-1.5 text-sm backdrop-blur-sm transition-opacity hover:opacity-80"
+      style={{ background: "rgba(20,16,13,0.7)", color: copied ? "var(--moss)" : "var(--fg-70)", border: "1px solid var(--line-2)" }}
     >
-      {copied ? (
-        <>
-          <Check size={14} className="text-success" />
-          <span>Copiado</span>
-        </>
-      ) : (
-        <>
-          <Share2 size={14} />
-          <span>Compartir</span>
-        </>
-      )}
+      {copied ? <Check size={14} /> : <Share2 size={14} />}
+      <span>{copied ? "Copiado" : "Compartir"}</span>
     </button>
   );
 }

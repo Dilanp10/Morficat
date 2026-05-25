@@ -1,10 +1,31 @@
 import type { Metadata, Viewport } from "next";
+import { Instrument_Serif, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { BottomNav } from "@/components/BottomNav";
 import { SplashScreen } from "@/components/SplashScreen";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { WelcomeOverlay } from "@/components/WelcomeOverlay";
 import { getCurrentUser } from "@/lib/supabase/server";
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Haku — Comer y tomar en Catamarca",
@@ -29,10 +50,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#FAFAF8" },
-    { media: "(prefers-color-scheme: dark)", color: "#1A1A1A" },
-  ],
+  themeColor: "#1B1612",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -49,11 +67,15 @@ export default async function RootLayout({
   const user = await getCurrentUser();
 
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html
+      lang="es"
+      className={`dark ${instrumentSerif.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body className="min-h-screen bg-background text-foreground antialiased pb-20">
+      <body className="min-h-screen antialiased pb-20">
         <ThemeProvider>
           <SplashScreen />
           {children}

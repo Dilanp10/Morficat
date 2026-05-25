@@ -24,13 +24,13 @@ const ITEMS = [
   {
     href: "/sobre",
     label: "Sobre Haku",
-    descripcion: "Qué es la app y por qué la hicimos.",
+    descripcion: "por qué la hicimos.",
     icon: Info,
   },
   {
     href: "/admin",
     label: "Panel de admin",
-    descripcion: "Sólo para el equipo (requiere contraseña).",
+    descripcion: "solo para el equipo.",
     icon: Lock,
   },
 ];
@@ -39,22 +39,30 @@ export default async function MasPage() {
   const profile = await getCurrentProfile();
 
   return (
-    <main className="min-h-screen px-4 py-6 sm:px-6 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold text-terracota mb-5">Más</h1>
+    <main className="min-h-screen px-4 py-8 sm:px-6 max-w-2xl mx-auto">
+      <h1
+        className="font-serif italic mb-8"
+        style={{ fontSize: "2.5rem", color: "var(--fg)" }}
+      >
+        Más.
+      </h1>
 
-      <section className="mb-6">
-        <h2 className="text-xs font-semibold uppercase tracking-wide text-foreground/60 mb-2">
-          Cuenta
-        </h2>
+      {/* Cuenta */}
+      <section className="mb-8">
+        <p className="text-section mb-3">— Cuenta —</p>
         {profile ? (
-          <div className="rounded-card border border-foreground/10 bg-card p-4">
-            <p className="text-sm text-foreground/60">Conectado como</p>
-            <p className="font-semibold text-foreground">{profile.display_name}</p>
-            <p className="text-xs text-foreground/60 mt-0.5">{profile.email}</p>
+          <div
+            className="rounded-card p-4"
+            style={{ background: "var(--card-bg)", border: "1px solid var(--line)" }}
+          >
+            <p className="text-xs" style={{ color: "var(--fg-50)" }}>Conectado como</p>
+            <p className="font-semibold mt-0.5" style={{ color: "var(--fg)" }}>{profile.display_name}</p>
+            <p className="text-xs mt-0.5" style={{ color: "var(--fg-50)" }}>{profile.email}</p>
             <form action={signOutAction} className="mt-3">
               <button
                 type="submit"
-                className="inline-flex items-center gap-1.5 rounded-button border border-foreground/10 px-3 py-1.5 text-sm text-foreground/80 hover:bg-muted transition-colors"
+                className="inline-flex items-center gap-1.5 rounded-button px-3 py-1.5 text-sm transition-opacity hover:opacity-80"
+                style={{ border: "1px solid var(--line-2)", color: "var(--fg-70)" }}
               >
                 <LogOut size={14} />
                 Cerrar sesión
@@ -62,65 +70,95 @@ export default async function MasPage() {
             </form>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-2">
-            <Link
-              href="/login"
-              className="inline-flex items-center justify-center gap-1.5 rounded-button border border-foreground/10 bg-card px-3 py-2.5 text-sm font-medium text-foreground hover:bg-muted transition-colors"
+          <div
+            className="rounded-card p-4 flex items-center gap-4"
+            style={{ background: "var(--card-bg)", border: "1px solid var(--line)" }}
+          >
+            <div
+              className="size-12 rounded-full flex items-center justify-center text-xl font-serif italic shrink-0"
+              style={{ background: "var(--card-2)", color: "var(--fg-30)" }}
             >
-              <LogIn size={14} />
-              Iniciar sesión
-            </Link>
-            <Link
-              href="/signup"
-              className="inline-flex items-center justify-center gap-1.5 rounded-button bg-terracota px-3 py-2.5 text-sm font-medium text-white hover:bg-terracota-deep transition-colors"
-            >
-              <UserPlus size={14} />
-              Crear cuenta
-            </Link>
+              ¿?
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm" style={{ color: "var(--fg-50)" }}>
+                Iniciá sesión para dejar reseña.
+              </p>
+            </div>
+            <div className="flex flex-col gap-2 shrink-0">
+              <Link
+                href="/login"
+                className="inline-flex items-center justify-center gap-1.5 rounded-button px-3 py-2 text-xs font-medium transition-opacity hover:opacity-80"
+                style={{ border: "1px solid var(--line-2)", color: "var(--fg-70)" }}
+              >
+                <LogIn size={12} />
+                Entrar
+              </Link>
+              <Link
+                href="/signup"
+                className="inline-flex items-center justify-center gap-1.5 rounded-button px-3 py-2 text-xs font-semibold transition-opacity hover:opacity-90"
+                style={{ background: "var(--terra)", color: "var(--bg)" }}
+              >
+                <UserPlus size={12} />
+                Crear cuenta
+              </Link>
+            </div>
           </div>
         )}
       </section>
 
-      <section className="mb-6">
-        <h2 className="text-xs font-semibold uppercase tracking-wide text-foreground/60 mb-2">
-          Apariencia
-        </h2>
+      {/* Apariencia */}
+      <section className="mb-8">
+        <p className="text-section mb-3">— Apariencia —</p>
         <ThemeToggle />
       </section>
 
-      <h2 className="text-xs font-semibold uppercase tracking-wide text-foreground/60 mb-2">
-        Acciones
-      </h2>
-      <ul className="space-y-2">
-        {ITEMS.map((it) => {
-          const Icon = it.icon;
-          return (
-            <li key={it.href}>
-              <Link
-                href={it.href}
-                className="flex items-center gap-3 rounded-card border border-foreground/10 bg-card px-4 py-3 hover:bg-muted transition-colors"
-              >
-                <span className="text-foreground/60">
-                  <Icon size={20} />
-                </span>
-                <span className="flex-1 min-w-0">
-                  <span className="block font-medium text-foreground">
-                    {it.label}
+      {/* Acciones */}
+      <section>
+        <p className="text-section mb-3">— Acciones —</p>
+        <ul>
+          {ITEMS.map((it) => {
+            const Icon = it.icon;
+            return (
+              <li key={it.href} className="row-sep last:border-b-0">
+                <Link
+                  href={it.href}
+                  className="flex items-center gap-4 py-4 transition-opacity active:opacity-70"
+                >
+                  <span
+                    className="size-9 rounded-full flex items-center justify-center shrink-0"
+                    style={{ background: "var(--card-2)", color: "var(--terra)" }}
+                  >
+                    <Icon size={17} />
                   </span>
-                  <span className="block text-xs text-foreground/60 truncate">
-                    {it.descripcion}
+                  <span className="flex-1 min-w-0">
+                    <span className="block font-medium" style={{ color: "var(--fg)" }}>
+                      {it.label}
+                    </span>
+                    <span
+                      className="block text-xs mt-0.5 font-serif italic truncate"
+                      style={{ color: "var(--fg-50)" }}
+                    >
+                      {it.descripcion}
+                    </span>
                   </span>
-                </span>
-                <ChevronRight size={18} className="text-foreground/35" />
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+                  <ChevronRight size={16} style={{ color: "var(--fg-30)" }} />
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
 
-      <p className="mt-8 text-xs text-foreground/35 text-center">
-        Haku · Catamarca, Argentina
-      </p>
+      <div className="mt-12 text-center">
+        <p
+          className="font-serif italic text-2xl"
+          style={{ color: "var(--terra)" }}
+        >
+          Haku.
+        </p>
+        <p className="text-section mt-1">hecho en catamarca · 2026</p>
+      </div>
     </main>
   );
 }

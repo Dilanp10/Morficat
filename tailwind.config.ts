@@ -9,37 +9,48 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Theme-aware tokens (varían con .dark en <html>)
-        background: "rgb(var(--background) / <alpha-value>)",
-        foreground: "rgb(var(--foreground) / <alpha-value>)",
-        card: "rgb(var(--card) / <alpha-value>)",
-        muted: "rgb(var(--muted) / <alpha-value>)",
+        // Theme-aware tokens
+        background: "var(--bg)",
+        "background-deep": "var(--bg-deep)",
+        foreground: "var(--fg)",
+        card: "var(--card-bg)",
+        "card-2": "var(--card-2)",
+        muted: "var(--muted-bg)",
+        line: "var(--line)",
+        "line-2": "var(--line-2)",
 
-        // Identidad de marca (no varía con tema)
-        terracota: {
-          DEFAULT: "#E07B4C",
-          deep: "#B85A30",
-          soft: "#F4A882",
+        // Tierra brand palette
+        terra: {
+          DEFAULT: "#D67849",
+          deep: "#A85A30",
+          soft: "#E89B6F",
+          wash: "rgba(214,120,73,0.12)",
         },
-        success: "#4CAF82",
-        danger: "#E05252",
+        ochre: "#C99347",
+        moss: "#8AA265",
+        rust: "#C0664E",
+
+        // Legacy aliases (so existing code doesn't break)
+        terracota: {
+          DEFAULT: "#D67849",
+          deep: "#A85A30",
+          soft: "#E89B6F",
+        },
+        success: "#8AA265",
+        danger: "#C0664E",
+      },
+      fontFamily: {
+        serif: ["var(--font-serif)", "Georgia", "serif"],
+        sans: ["var(--font-sans)", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       borderRadius: {
         card: "12px",
         button: "8px",
         pill: "20px",
       },
-      fontFamily: {
-        sans: [
-          "-apple-system",
-          "BlinkMacSystemFont",
-          '"Segoe UI"',
-          "Roboto",
-          "sans-serif",
-        ],
-      },
       spacing: {
-        bottom: "var(--bottom-nav-height, 64px)",
+        bottom: "var(--bottom-nav-height, 80px)",
       },
       keyframes: {
         "fade-in-up": {
@@ -47,12 +58,8 @@ const config: Config = {
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
         "soft-pulse": {
-          "0%, 100%": {
-            boxShadow: "0 0 0 0 rgba(76, 175, 130, 0.55)",
-          },
-          "50%": {
-            boxShadow: "0 0 0 6px rgba(76, 175, 130, 0)",
-          },
+          "0%, 100%": { boxShadow: "0 0 0 0 rgba(138, 162, 101, 0.55)" },
+          "50%": { boxShadow: "0 0 0 6px rgba(138, 162, 101, 0)" },
         },
       },
       animation: {
