@@ -19,12 +19,6 @@ const CATEGORIAS = [
   "Otro",
 ];
 
-const TIPOS = [
-  { value: "nuevo_local", label: "Sumar un lugar que falta" },
-  { value: "error_horario", label: "Hay un horario mal cargado" },
-  { value: "local_cerrado", label: "Un local ya no existe" },
-  { value: "otro", label: "Otra cosa" },
-];
 
 type State = {
   tipo: string;
