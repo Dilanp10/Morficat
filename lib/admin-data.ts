@@ -76,6 +76,36 @@ export async function listarTiposComida(): Promise<TipoComida[]> {
   return (data ?? []) as TipoComida[];
 }
 
+export type SugerenciaAdmin = {
+  id: string;
+  tipo: string;
+  contenido: string;
+  email: string | null;
+  foto_url: string | null;
+  audio_url: string | null;
+  revisado: boolean;
+  created_at: string;
+};
+
+export async function listarSugerencias(): Promise<SugerenciaAdmin[]> {
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase
+    .from("sugerencias")
+    .select("id, tipo, contenido, email, foto_url, audio_url, revisado, created_at")
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return (data ?? []) as SugerenciaAdmin[];
+}
+
+export async function toggleRevisada(id: string, revisado: boolean): Promise<void> {
+  const supabase = getSupabaseAdmin();
+  const { error } = await supabase
+    .from("sugerencias")
+    .update({ revisado })
+    .eq("id", id);
+  if (error) throw error;
+}
+
 export async function slugDisponible(
   slug: string,
   exceptId?: string,

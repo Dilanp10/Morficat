@@ -1,13 +1,17 @@
 import Link from "next/link";
-import { ChevronLeft, Plus } from "lucide-react";
-import { listarLugaresAdmin } from "@/lib/admin-data";
+import { ChevronLeft, Inbox, Plus } from "lucide-react";
+import { listarLugaresAdmin, listarSugerencias } from "@/lib/admin-data";
 import { ActivoBadge } from "./_components/ActivoBadge";
 import { LogoutButton } from "./_components/LogoutButton";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
-  const lugares = await listarLugaresAdmin();
+  const [lugares, sugerencias] = await Promise.all([
+    listarLugaresAdmin(),
+    listarSugerencias(),
+  ]);
+  const pendientes = sugerencias.filter((s) => !s.revisado).length;
 
   return (
     <main className="min-h-screen px-4 py-6 sm:px-6">
@@ -30,13 +34,25 @@ export default async function AdminPage() {
         <LogoutButton />
       </header>
 
-      <div className="mb-4">
+      <div className="mb-4 flex items-center gap-3">
         <Link
           href="/admin/lugar/new"
           className="inline-flex items-center gap-2 rounded-button bg-terracota px-4 py-2 text-sm font-medium text-white hover:bg-terracota-deep transition-colors"
         >
           <Plus size={16} />
           Nuevo lugar
+        </Link>
+        <Link
+          href="/admin/sugerencias"
+          className="relative inline-flex items-center gap-2 rounded-button border border-foreground/15 bg-card px-4 py-2 text-sm text-foreground hover:bg-muted transition-colors"
+        >
+          <Inbox size={16} />
+          Sugerencias
+          {pendientes > 0 && (
+            <span className="absolute -top-1.5 -right-1.5 inline-flex items-center justify-center size-5 rounded-full bg-terracota text-[10px] font-bold text-white">
+              {pendientes}
+            </span>
+          )}
         </Link>
       </div>
 
