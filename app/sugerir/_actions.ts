@@ -91,13 +91,19 @@ export async function enviarSugerencia(
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
   const supa = createClient(url, anon, { auth: { persistSession: false } });
-  const { error } = await supa.from("sugerencias").insert({
+
+  // Solo incluir foto_url/audio_url si tienen valor.
+  // Así, si las columnas todavía no fueron agregadas a la DB, el INSERT no
+  // falla mientras el usuario no haya subido nada.
+  const row: Record<string, unknown> = {
     tipo: tipoRaw,
     contenido,
     email: email === "" ? null : email,
-    foto_url,
-    audio_url,
-  });
+  };
+  if (foto_url) row.foto_url = foto_url;
+  if (audio_url) row.audio_url = audio_url;
+
+  const { error } = await supa.from("sugerencias").insert(row);
   if (error) return { ok: false, error: error.message };
 
   return { ok: true };
