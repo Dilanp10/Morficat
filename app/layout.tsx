@@ -69,7 +69,7 @@ export default async function RootLayout({
   return (
     <html
       lang="es"
-      className={`dark ${instrumentSerif.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+      className={`${instrumentSerif.variable} ${inter.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
       <head>

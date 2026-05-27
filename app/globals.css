@@ -4,10 +4,37 @@
 
 @layer base {
   :root {
-    color-scheme: dark;
+    color-scheme: light;
     --bottom-nav-height: 80px;
 
-    /* Tierra — dark warm (default, only dark mode in MVP) */
+    /* Tierra LIGHT (default) — warm cream */
+    --bg:       #F4EDE1;
+    --bg-deep:  #EDE2D0;
+    --card-bg:  #FAF6EE;
+    --card-2:   #F0E8D8;
+    --muted-bg: #F0E8D8;
+    --line:     rgba(27,22,18,0.08);
+    --line-2:   rgba(27,22,18,0.14);
+
+    --fg:       #1B1612;
+    --fg-70:    rgba(27,22,18,0.70);
+    --fg-50:    rgba(27,22,18,0.50);
+    --fg-30:    rgba(27,22,18,0.30);
+
+    /* Brand palette (igual en ambos temas) */
+    --terra:      #D67849;
+    --terra-deep: #A85A30;
+    --terra-soft: #E89B6F;
+    --terra-wash: rgba(214,120,73,0.12);
+    --ochre:      #C99347;
+    --moss:       #8AA265;
+    --rust:       #C0664E;
+  }
+
+  .dark {
+    color-scheme: dark;
+
+    /* Tierra DARK — warm dark */
     --bg:       #1B1612;
     --bg-deep:  #14100D;
     --card-bg:  #25201A;
@@ -16,29 +43,17 @@
     --line:     rgba(244,237,225,0.08);
     --line-2:   rgba(244,237,225,0.14);
 
-    /* Brand palette */
-    --terra:      #D67849;
-    --terra-deep: #A85A30;
-    --terra-soft: #E89B6F;
-    --ochre:      #C99347;
-    --moss:       #8AA265;
-    --rust:       #C0664E;
-
-    /* Foreground as CSS variable for opacity variants */
     --fg:       #F4EDE1;
     --fg-70:    rgba(244,237,225,0.70);
     --fg-50:    rgba(244,237,225,0.50);
     --fg-30:    rgba(244,237,225,0.30);
   }
 
-  .dark {
-    color-scheme: dark;
-  }
-
   html,
   body {
     background-color: var(--bg);
     color: var(--fg);
+    transition: background-color 200ms ease, color 200ms ease;
   }
 
   body {
@@ -54,18 +69,15 @@
 
 /* ── Tierra utility classes ─────────────────────────────── */
 @layer utilities {
-  /* Serif italic brand text */
   .text-brand {
     font-family: var(--font-serif), Georgia, serif;
     font-style: italic;
   }
-  /* Mono data text */
   .text-data {
     font-family: var(--font-mono), ui-monospace, monospace;
     font-size: 0.75rem;
     letter-spacing: 0.04em;
   }
-  /* Section label style */
   .text-section {
     font-family: var(--font-mono), ui-monospace, monospace;
     font-size: 0.7rem;
@@ -74,7 +86,6 @@
     color: var(--ochre);
     font-weight: 500;
   }
-  /* Hairline row separator */
   .row-sep {
     border-bottom: 1px solid var(--line);
   }
@@ -98,7 +109,7 @@
   font-family: inherit !important;
 }
 .leaflet-popup-content a {
-  color: #D67849 !important;
+  color: var(--terra) !important;
 }
 .leaflet-popup-close-button {
   color: var(--fg-50) !important;
@@ -114,11 +125,11 @@
   font-family: inherit;
 }
 .leaflet-control-attribution {
-  background-color: rgba(20,16,13,0.85) !important;
+  background-color: var(--card-bg) !important;
   color: var(--fg-50) !important;
 }
 .leaflet-control-attribution a {
-  color: #D67849 !important;
+  color: var(--terra) !important;
 }
 .haku-pin {
   background: transparent;
