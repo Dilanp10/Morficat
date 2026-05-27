@@ -68,10 +68,11 @@
   /* Section label style */
   .text-section {
     font-family: var(--font-mono), ui-monospace, monospace;
-    font-size: 0.625rem;
-    letter-spacing: 0.1em;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--fg-30);
+    color: var(--ochre);
+    font-weight: 500;
   }
   /* Hairline row separator */
   .row-sep {

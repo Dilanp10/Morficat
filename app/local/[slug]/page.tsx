@@ -143,8 +143,8 @@ export default async function LocalPage({
         {/* Head */}
         <div className="pt-5 pb-4" style={{ borderBottom: "1px solid var(--line)" }}>
           <p
-            className="font-mono text-[11px] tracking-widest uppercase mb-1"
-            style={{ color: "var(--fg-30)" }}
+            className="font-mono text-[11px] tracking-widest uppercase mb-1 font-medium"
+            style={{ color: "var(--ochre)" }}
           >
             {[lugar.categoria?.nombre, lugar.barrio].filter(Boolean).join(" · ")}
           </p>
