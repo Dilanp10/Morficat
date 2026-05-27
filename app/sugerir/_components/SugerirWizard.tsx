@@ -5,6 +5,13 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import { AudioRecorder } from "./AudioRecorder";
 import { PhotoPicker } from "./PhotoPicker";
+import {
+  HorariosInput,
+  HORARIO_INICIAL,
+  serializarHorarios,
+  type FeriadosOption,
+  type HorarioSemana,
+} from "./HorariosInput";
 import { enviarSugerencia } from "../_actions";
 
 const CATEGORIAS = [
@@ -19,13 +26,15 @@ const CATEGORIAS = [
   "Otro",
 ];
 
-
 type State = {
   tipo: string;
   nombre: string;
   categoria: string;
   categoriaCustom: string;
   direccion: string;
+  horario: HorarioSemana;
+  feriados: FeriadosOption;
+  horarioCompletado: boolean;
   comentario: string;
   email: string;
   fotos: File[];
@@ -38,15 +47,23 @@ const INITIAL: State = {
   categoria: "",
   categoriaCustom: "",
   direccion: "",
+  horario: HORARIO_INICIAL,
+  feriados: "consultar",
+  horarioCompletado: false,
   comentario: "",
   email: "",
   fotos: [],
   audio: null,
 };
 
-const STEPS_COUNT = 6;
+const STEPS_COUNT = 7;
 const inputCls =
-  "w-full rounded-button bg-muted px-3 py-2.5 text-foreground outline-none ring-1 ring-foreground/10 focus:ring-terracota";
+  "w-full rounded-button px-3 py-2.5 outline-none transition-colors";
+const inputStyle = {
+  background: "var(--card-2)",
+  color: "var(--fg)",
+  border: "1px solid var(--line)",
+};
 
 export function SugerirWizard() {
   const [step, setStep] = useState(0);
@@ -71,7 +88,17 @@ export function SugerirWizard() {
         data.categoria === "Otro" ? data.categoriaCustom.trim() : data.categoria,
       );
       fd.set("direccion", data.direccion.trim());
-      fd.set("comentario", data.comentario.trim());
+
+      // Concatena horarios al comentario si el usuario los completó
+      let contenido = data.comentario.trim();
+      if (data.horarioCompletado) {
+        const horariosTxt = serializarHorarios(data.horario, data.feriados);
+        contenido = contenido
+          ? `${contenido}\n\n${horariosTxt}`
+          : horariosTxt;
+      }
+      fd.set("comentario", contenido);
+
       fd.set("email", data.email.trim());
       data.fotos.forEach((f, i) => fd.set(`foto_${i}`, f));
       if (data.audio) fd.set("audio", data.audio);
@@ -83,15 +110,26 @@ export function SugerirWizard() {
 
   if (done) {
     return (
-      <div className="rounded-card border border-success/40 bg-success/10 p-6 text-center animate-fade-in-up">
-        <div className="mx-auto mb-3 inline-flex items-center justify-center size-14 rounded-pill bg-success/20 text-success">
+      <div
+        className="rounded-card p-6 text-center animate-fade-in-up"
+        style={{
+          background: "var(--card-bg)",
+          border: "1px solid var(--moss)",
+        }}
+      >
+        <div
+          className="mx-auto mb-3 inline-flex items-center justify-center size-14 rounded-pill"
+          style={{ background: "rgba(138,162,101,0.15)", color: "var(--moss)" }}
+        >
           <MailCheck size={24} />
         </div>
-        <p className="text-foreground font-semibold text-lg">¡Gracias!</p>
-        <p className="text-foreground/70 text-sm mt-1">
+        <p className="font-serif italic text-2xl" style={{ color: "var(--fg)" }}>
+          ¡Gracias!
+        </p>
+        <p className="text-sm mt-2" style={{ color: "var(--fg-70)" }}>
           Tu sugerencia llegó bien. La revisamos lo antes posible.
         </p>
-        <div className="mt-5 flex items-center justify-center gap-3">
+        <div className="mt-6 flex items-center justify-center gap-3">
           <button
             type="button"
             onClick={() => {
@@ -99,13 +137,15 @@ export function SugerirWizard() {
               setStep(0);
               setDone(false);
             }}
-            className="rounded-button border border-foreground/15 px-4 py-2 text-sm text-foreground hover:bg-muted transition-colors"
+            className="rounded-button px-4 py-2 text-sm transition-opacity hover:opacity-80"
+            style={{ border: "1px solid var(--line-2)", color: "var(--fg-70)" }}
           >
             Mandar otra
           </button>
           <Link
             href="/"
-            className="rounded-button bg-terracota px-4 py-2 text-sm font-medium text-white hover:bg-terracota-deep transition-colors"
+            className="rounded-button px-4 py-2 text-sm font-medium transition-opacity hover:opacity-90"
+            style={{ background: "var(--terra)", color: "var(--bg)" }}
           >
             Volver al inicio
           </Link>
@@ -115,19 +155,28 @@ export function SugerirWizard() {
   }
 
   // Progress
-  const progress = (step / STEPS_COUNT) * 100;
+  const progress = ((step + 1) / STEPS_COUNT) * 100;
   const canAdvance = step !== 0 || data.nombre.trim().length >= 2;
 
   return (
     <div className="space-y-5">
       {/* progress */}
-      <div className="h-1 bg-card rounded-full overflow-hidden">
+      <div
+        className="h-1 rounded-full overflow-hidden"
+        style={{ background: "var(--card-2)" }}
+      >
         <div
-          className="h-full bg-gradient-to-r from-terracota to-terracota-deep transition-all duration-300"
-          style={{ width: `${progress}%` }}
+          className="h-full transition-all duration-300"
+          style={{
+            width: `${progress}%`,
+            background: "linear-gradient(to right, var(--terra), var(--terra-deep))",
+          }}
         />
       </div>
-      <p className="text-xs text-foreground/60 text-right">
+      <p
+        className="font-mono text-[11px] tracking-widest uppercase text-right"
+        style={{ color: "var(--fg-50)" }}
+      >
         Paso {step + 1} de {STEPS_COUNT}
       </p>
 
@@ -147,6 +196,7 @@ export function SugerirWizard() {
               placeholder="Ej: Café del Centro"
               maxLength={120}
               className={inputCls}
+              style={inputStyle}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && canAdvance) {
                   e.preventDefault();
@@ -154,7 +204,9 @@ export function SugerirWizard() {
                 }
               }}
             />
-            <p className="text-xs text-foreground/35 mt-2">Mínimo 2 caracteres.</p>
+            <p className="text-xs mt-2" style={{ color: "var(--fg-30)" }}>
+              Mínimo 2 caracteres.
+            </p>
           </Step>
         )}
 
@@ -175,11 +227,13 @@ export function SugerirWizard() {
                       categoriaCustom: d.categoria === c ? "" : d.categoriaCustom,
                     }))
                   }
-                  className={`rounded-pill px-3 py-1.5 text-sm transition-all ${
-                    data.categoria === c
-                      ? "bg-terracota text-white ring-1 ring-terracota/40"
-                      : "bg-card text-foreground/70 ring-1 ring-foreground/10 hover:ring-foreground/20"
-                  }`}
+                  className="rounded-pill px-3 py-1.5 text-sm transition-all"
+                  style={{
+                    background:
+                      data.categoria === c ? "var(--terra)" : "var(--card-bg)",
+                    color: data.categoria === c ? "var(--bg)" : "var(--fg-70)",
+                    border: `1px solid ${data.categoria === c ? "var(--terra)" : "var(--line)"}`,
+                  }}
                 >
                   {c}
                 </button>
@@ -194,6 +248,7 @@ export function SugerirWizard() {
                 }
                 placeholder="Especificá qué tipo"
                 className={`${inputCls} mt-3`}
+                style={inputStyle}
               />
             )}
           </Step>
@@ -212,6 +267,7 @@ export function SugerirWizard() {
               }
               placeholder="Ej: Rivadavia 500, Centro"
               className={inputCls}
+              style={inputStyle}
             />
             <button
               type="button"
@@ -258,7 +314,12 @@ export function SugerirWizard() {
                   { enableHighAccuracy: false, timeout: 8000 },
                 );
               }}
-              className="mt-2 inline-flex items-center gap-2 rounded-pill bg-card ring-1 ring-foreground/15 px-4 py-2 text-sm text-foreground hover:ring-terracota/50 disabled:opacity-50 transition-all"
+              className="mt-2 inline-flex items-center gap-2 rounded-pill px-4 py-2 text-sm transition-opacity hover:opacity-80 disabled:opacity-50"
+              style={{
+                background: "var(--card-bg)",
+                color: "var(--fg-70)",
+                border: "1px solid var(--line-2)",
+              }}
             >
               {gpsLoading ? (
                 <Loader2 size={14} className="animate-spin" />
@@ -268,12 +329,32 @@ export function SugerirWizard() {
               {gpsLoading ? "Obteniendo ubicación..." : "Usar mi ubicación actual"}
             </button>
             {gpsError && (
-              <p className="text-xs text-danger mt-1">{gpsError}</p>
+              <p className="text-xs mt-1" style={{ color: "var(--rust)" }}>
+                {gpsError}
+              </p>
             )}
           </Step>
         )}
 
         {step === 3 && (
+          <Step
+            titulo="¿Cuáles son los horarios?"
+            sub="Ajustá lo que sepas. Si no estás seguro de algo, podés saltar este paso."
+          >
+            <HorariosInput
+              horario={data.horario}
+              onChange={(h) =>
+                setData((d) => ({ ...d, horario: h, horarioCompletado: true }))
+              }
+              feriados={data.feriados}
+              onFeriadosChange={(f) =>
+                setData((d) => ({ ...d, feriados: f, horarioCompletado: true }))
+              }
+            />
+          </Step>
+        )}
+
+        {step === 4 && (
           <Step
             titulo="¿Tenés fotos?"
             sub="Una imagen del frente o el ambiente nos ayuda un montón. Podés mandar hasta 3."
@@ -284,7 +365,7 @@ export function SugerirWizard() {
           </Step>
         )}
 
-        {step === 4 && (
+        {step === 5 && (
           <Step
             titulo="¿Querés mandar un audio?"
             sub="Más rápido que escribir. Contale al equipo lo que sepas."
@@ -295,10 +376,10 @@ export function SugerirWizard() {
           </Step>
         )}
 
-        {step === 5 && (
+        {step === 6 && (
           <Step
             titulo="¿Algo más para sumar?"
-            sub="Cualquier dato extra: horarios, mejores platos, lo que sea."
+            sub="Cualquier dato extra: mejores platos, datos de contacto, lo que sea."
           >
             <textarea
               value={data.comentario}
@@ -309,9 +390,13 @@ export function SugerirWizard() {
               rows={4}
               maxLength={2000}
               className={inputCls}
+              style={inputStyle}
             />
             <label className="block mt-4">
-              <span className="block text-sm text-foreground/60 mb-1">
+              <span
+                className="block text-sm mb-1"
+                style={{ color: "var(--fg-50)" }}
+              >
                 Email (opcional)
               </span>
               <input
@@ -322,6 +407,7 @@ export function SugerirWizard() {
                 }
                 placeholder="Para avisarte cuando lo carguemos"
                 className={inputCls}
+                style={inputStyle}
               />
             </label>
           </Step>
@@ -329,7 +415,14 @@ export function SugerirWizard() {
       </div>
 
       {serverError && (
-        <div className="rounded-card border border-danger/40 bg-danger/10 px-4 py-3 text-sm text-danger">
+        <div
+          className="rounded-card px-4 py-3 text-sm"
+          style={{
+            background: "rgba(192,102,78,0.1)",
+            color: "var(--rust)",
+            border: "1px solid var(--rust)",
+          }}
+        >
           {serverError}
         </div>
       )}
@@ -340,7 +433,8 @@ export function SugerirWizard() {
           type="button"
           onClick={back}
           disabled={step === 0}
-          className="inline-flex items-center gap-1 rounded-button px-3 py-2 text-sm text-foreground/60 hover:text-foreground disabled:opacity-30 transition-colors"
+          className="inline-flex items-center gap-1 rounded-button px-3 py-2 text-sm transition-colors disabled:opacity-30"
+          style={{ color: "var(--fg-50)" }}
         >
           <ChevronLeft size={16} />
           Atrás
@@ -351,9 +445,10 @@ export function SugerirWizard() {
             type="button"
             onClick={next}
             disabled={!canAdvance}
-            className="inline-flex items-center gap-1 rounded-button bg-terracota px-5 py-2 text-sm font-medium text-white hover:bg-terracota-deep disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="inline-flex items-center gap-1 rounded-button px-5 py-2 text-sm font-medium transition-opacity hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
+            style={{ background: "var(--terra)", color: "var(--bg)" }}
           >
-            {step === 0 ? "Siguiente" : "Siguiente"}
+            Siguiente
             <ChevronRight size={16} />
           </button>
         ) : (
@@ -361,7 +456,8 @@ export function SugerirWizard() {
             type="button"
             onClick={submit}
             disabled={pending}
-            className="rounded-button bg-terracota px-5 py-2.5 text-sm font-semibold text-white hover:bg-terracota-deep disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="rounded-button px-5 py-2.5 text-sm font-semibold transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{ background: "var(--terra)", color: "var(--bg)" }}
           >
             {pending ? "Enviando..." : "Enviar sugerencia"}
           </button>
@@ -381,10 +477,16 @@ function Step({
   children: React.ReactNode;
 }) {
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       <div>
-        <h2 className="text-xl font-bold text-foreground">{titulo}</h2>
-        {sub && <p className="text-sm text-foreground/60 mt-1">{sub}</p>}
+        <h2 className="font-serif italic text-2xl" style={{ color: "var(--fg)" }}>
+          {titulo}
+        </h2>
+        {sub && (
+          <p className="text-sm mt-1.5" style={{ color: "var(--fg-50)" }}>
+            {sub}
+          </p>
+        )}
       </div>
       {children}
     </div>

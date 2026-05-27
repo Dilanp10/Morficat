@@ -34,6 +34,7 @@
 | 11 | PWA — Instalación | [📄](.github/specs/11-pwa.md) | [#11](https://github.com/Dilanp10/Morficat/issues/11) | ✅ |
 | 12 | Datos MVP → Lanzamiento público | [📄](.github/specs/12-lanzamiento-publico.md) | [#12](https://github.com/Dilanp10/Morficat/issues/12) | ⏳ |
 | 13 | Roadmap v2+ | [📄](.github/specs/13-roadmap-v2.md) | [#13](https://github.com/Dilanp10/Morficat/issues/13) | 📋 |
+| 14 | Sugerir — Horarios completos | [📄](.github/specs/14-sugerir-horarios.md) | [#14](https://github.com/Dilanp10/Morficat/issues/14) | 🚧 |
 
 ## Cómo agregar un feature nuevo
 1. Crear Issue en GitHub con label `spec`
