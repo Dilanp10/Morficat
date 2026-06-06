@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { ChevronLeft, Search } from "lucide-react";
 import {
   listarCategoriasPublic,
   listarLugaresActivos,
@@ -16,28 +14,21 @@ export default async function BuscarPage() {
 
   return (
     <main className="min-h-screen max-w-2xl mx-auto px-4 sm:px-6">
-      <div className="relative">
-        <div
-          aria-hidden
-          className="absolute -inset-x-4 sm:-inset-x-6 -top-2 h-40 bg-gradient-to-b from-terracota/15 via-terracota/5 to-transparent pointer-events-none"
-        />
-        <div className="relative pt-6 pb-4">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1 text-sm text-foreground/60 hover:text-foreground mb-3"
-          >
-            <ChevronLeft size={16} />
-            Volver
-          </Link>
-          <h1 className="text-3xl font-black tracking-tight text-terracota leading-none flex items-center gap-2">
-            <Search size={26} />
-            Buscar
-          </h1>
-          <p className="text-foreground/70 mt-1.5 text-sm">
-            Encontrá un lugar por nombre, categoría o tipo de comida.
-          </p>
-        </div>
-      </div>
+      <header className="pt-8 pb-4">
+        <p className="text-section mb-2">Catamarca · gastronomía</p>
+        <h1
+          className="font-serif italic leading-none"
+          style={{ fontSize: "clamp(2.5rem,10vw,3.5rem)", color: "var(--terra)" }}
+        >
+          Buscar.
+        </h1>
+        <p
+          className="mt-1 text-sm"
+          style={{ color: "var(--fg-50)", fontFamily: "var(--font-sans)" }}
+        >
+          Por nombre, categoría o tipo de comida.
+        </p>
+      </header>
 
       <HomeListClient
         lugares={lugares}

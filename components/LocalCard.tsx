@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BadgeEstado } from "./BadgeEstado";
+import { BotonFavorito } from "./BotonFavorito";
 import { formatearDistancia } from "@/lib/distancia";
 
 export type LocalCardData = {
+  lugarId: string;
   slug: string;
   nombre: string;
   imagen_principal: string | null;
@@ -30,10 +32,14 @@ export function LocalCard({
       : data.barrio ?? null;
 
   return (
-    <Link
-      href={`/local/${data.slug}`}
-      className="group flex items-center gap-4 py-4 row-sep transition-opacity active:opacity-70 animate-fade-in-up"
-    >
+    <div className="group relative flex items-center gap-4 py-4 row-sep animate-fade-in-up">
+      {/* Overlay link: toda la fila navega, salvo el ♥ (z superior) */}
+      <Link
+        href={`/local/${data.slug}`}
+        aria-label={data.nombre}
+        className="absolute inset-0 z-10 transition-opacity active:opacity-70"
+      />
+
       {/* Thumb */}
       <div className="relative shrink-0 size-16 rounded-[10px] overflow-hidden bg-card-2">
         {data.imagen_principal ? (
@@ -56,7 +62,7 @@ export function LocalCard({
       </div>
 
       {/* Text */}
-      <div className="flex-1 min-w-0">
+      <div className="relative flex-1 min-w-0">
         <div className="flex items-baseline justify-between gap-2">
           <h3
             className="font-serif italic text-[19px] leading-tight truncate"
@@ -84,10 +90,8 @@ export function LocalCard({
         </div>
       </div>
 
-      {/* Chevron */}
-      <span className="text-xl shrink-0" style={{ color: "var(--fg-30)" }}>
-        ›
-      </span>
-    </Link>
+      {/* Favorito */}
+      <BotonFavorito lugarId={data.lugarId} />
+    </div>
   );
 }

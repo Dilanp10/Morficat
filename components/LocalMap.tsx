@@ -85,31 +85,42 @@ export default function LocalMap({ lugares }: { lugares: LugarPublic[] }) {
           icon={estado.abierto ? iconAbierto : iconCerrado}
         >
           <Popup>
-            <div className="text-foreground">
-              <div className="font-semibold text-foreground text-base">
+            <div style={{ color: "var(--fg)" }}>
+              <div
+                className="font-serif italic text-base leading-tight"
+                style={{ color: "var(--fg)" }}
+              >
                 {lugar.nombre}
               </div>
               {lugar.categoria && (
-                <div className="text-xs text-foreground/60 mt-0.5">
+                <div className="text-xs mt-0.5" style={{ color: "var(--fg-50)" }}>
                   {lugar.categoria.emoji} {lugar.categoria.nombre}
                   {lugar.barrio ? ` · ${lugar.barrio}` : ""}
                 </div>
               )}
-              <div className="text-xs mt-1.5">
+              <div className="inline-flex items-center gap-1.5 text-xs mt-1.5 font-mono">
                 <span
-                  className={
-                    estado.abierto ? "text-success" : "text-danger"
-                  }
+                  aria-hidden
+                  className="inline-block w-1.5 h-1.5 rounded-full shrink-0"
+                  style={{
+                    background: estado.abierto ? "var(--moss)" : "var(--rust)",
+                  }}
+                />
+                <span
+                  style={{ color: estado.abierto ? "var(--moss)" : "var(--rust)" }}
                 >
-                  {estado.abierto ? "🟢 Abierto" : "🔴 Cerrado"}
+                  {estado.abierto ? "Abierto" : "Cerrado"}
                 </span>
                 {estado.detalle && (
-                  <span className="text-foreground/60"> · {estado.detalle}</span>
+                  <span style={{ color: "var(--fg-50)" }}>
+                    · {estado.detalle}
+                  </span>
                 )}
               </div>
               <Link
                 href={`/local/${lugar.slug}`}
-                className="mt-2 inline-block text-terracota font-medium text-sm"
+                className="block mt-2 font-medium text-sm"
+                style={{ color: "var(--terra)" }}
               >
                 Ver ficha →
               </Link>
