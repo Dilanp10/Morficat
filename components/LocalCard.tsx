@@ -14,6 +14,9 @@ export type LocalCardData = {
   barrio: string | null;
   abierto: boolean;
   detalleHorario: string | null;
+  cierraPronto: boolean;
+  abrePronto: boolean;
+  minutosEstado: number | null;
   distanciaKm: number | null;
   ratingPromedio: number | null;
   ratingCount: number;
@@ -86,7 +89,13 @@ export function LocalCard({
           {[data.categoria_nombre, data.barrio].filter(Boolean).join(" · ")}
         </p>
         <div className="mt-1.5">
-          <BadgeEstado abierto={data.abierto} detalleHorario={data.detalleHorario} />
+          <BadgeEstado
+            abierto={data.abierto}
+            detalleHorario={data.detalleHorario}
+            cierraPronto={data.cierraPronto}
+            abrePronto={data.abrePronto}
+            minutos={data.minutosEstado}
+          />
         </div>
       </div>
 

@@ -7,6 +7,10 @@ export const TZ_OFFSET_HOURS = -3;
 
 export const DEFAULT_MAP_ZOOM = 14;
 
+/** Minutos de antelación para avisar que un local está por cerrar / abrir. */
+export const MINUTOS_CIERRA_PRONTO = 30;
+export const MINUTOS_ABRE_PRONTO = 30;
+
 export const DIAS_SEMANA = [
   "Domingo",
   "Lunes",

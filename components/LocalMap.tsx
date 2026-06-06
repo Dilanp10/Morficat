@@ -12,7 +12,7 @@ import {
   CircleMarker,
 } from "react-leaflet";
 import { CATAMARCA_CENTER, DEFAULT_MAP_ZOOM } from "@/lib/constants";
-import { estadoConHorario } from "@/lib/horarios";
+import { estadoConHorario, proximidadHorario } from "@/lib/horarios";
 import type { LugarPublic } from "@/lib/lugares-public";
 
 type Coords = { lat: number; lng: number };
@@ -62,6 +62,7 @@ export default function LocalMap({ lugares }: { lugares: LugarPublic[] }) {
       lugares.map((l) => ({
         lugar: l,
         estado: estadoConHorario(l.horarios, now),
+        prox: proximidadHorario(l.horarios, now),
       })),
     [lugares, now],
   );
@@ -78,7 +79,7 @@ export default function LocalMap({ lugares }: { lugares: LugarPublic[] }) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {puntos.map(({ lugar, estado }) => (
+      {puntos.map(({ lugar, estado, prox }) => (
         <Marker
           key={lugar.slug}
           position={[lugar.lat, lugar.lng]}
@@ -98,25 +99,52 @@ export default function LocalMap({ lugares }: { lugares: LugarPublic[] }) {
                   {lugar.barrio ? ` · ${lugar.barrio}` : ""}
                 </div>
               )}
-              <div className="inline-flex items-center gap-1.5 text-xs mt-1.5 font-mono">
-                <span
-                  aria-hidden
-                  className="inline-block w-1.5 h-1.5 rounded-full shrink-0"
-                  style={{
-                    background: estado.abierto ? "var(--moss)" : "var(--rust)",
-                  }}
-                />
-                <span
-                  style={{ color: estado.abierto ? "var(--moss)" : "var(--rust)" }}
-                >
-                  {estado.abierto ? "Abierto" : "Cerrado"}
-                </span>
-                {estado.detalle && (
-                  <span style={{ color: "var(--fg-50)" }}>
-                    · {estado.detalle}
-                  </span>
-                )}
-              </div>
+              {(() => {
+                const pronto =
+                  (estado.abierto && prox.cierraPronto) ||
+                  (!estado.abierto && prox.abrePronto);
+                const minutos = prox.cierraPronto
+                  ? prox.minutosParaCierre
+                  : prox.minutosParaApertura;
+                if (pronto) {
+                  const verbo = prox.cierraPronto ? "Cierra" : "Abre";
+                  return (
+                    <div className="inline-flex items-center gap-1.5 text-xs mt-1.5 font-mono">
+                      <span
+                        aria-hidden
+                        className="inline-block w-1.5 h-1.5 rounded-full shrink-0"
+                        style={{ background: "var(--ochre)" }}
+                      />
+                      <span style={{ color: "var(--ochre)" }}>
+                        {verbo} en {minutos} min
+                      </span>
+                    </div>
+                  );
+                }
+                return (
+                  <div className="inline-flex items-center gap-1.5 text-xs mt-1.5 font-mono">
+                    <span
+                      aria-hidden
+                      className="inline-block w-1.5 h-1.5 rounded-full shrink-0"
+                      style={{
+                        background: estado.abierto ? "var(--moss)" : "var(--rust)",
+                      }}
+                    />
+                    <span
+                      style={{
+                        color: estado.abierto ? "var(--moss)" : "var(--rust)",
+                      }}
+                    >
+                      {estado.abierto ? "Abierto" : "Cerrado"}
+                    </span>
+                    {estado.detalle && (
+                      <span style={{ color: "var(--fg-50)" }}>
+                        · {estado.detalle}
+                      </span>
+                    )}
+                  </div>
+                );
+              })()}
               <Link
                 href={`/local/${lugar.slug}`}
                 className="block mt-2 font-medium text-sm"

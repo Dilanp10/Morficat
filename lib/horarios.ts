@@ -1,4 +1,8 @@
-import { TZ_OFFSET_HOURS } from "./constants";
+import {
+  MINUTOS_ABRE_PRONTO,
+  MINUTOS_CIERRA_PRONTO,
+  TZ_OFFSET_HOURS,
+} from "./constants";
 import type { Horario } from "./types";
 
 type HorarioInput = Pick<
@@ -136,6 +140,96 @@ export function estadoConHorario(
   }
 
   return { abierto: false, detalle: null };
+}
+
+export type ProximidadHorario = {
+  cierraPronto: boolean;
+  minutosParaCierre: number | null;
+  abrePronto: boolean;
+  minutosParaApertura: number | null;
+};
+
+/**
+ * Deriva la "proximidad" de un local respecto a su horario:
+ * - si está abierto, cuántos minutos faltan para cerrar (y si es "pronto");
+ * - si está cerrado, cuántos minutos faltan para abrir hoy (y si es "pronto").
+ *
+ * Función aparte de `estadoConHorario` para no romper su contrato (los tests
+ * usan `toEqual` estricto). Reusa la misma detección de turno activo.
+ */
+export function proximidadHorario(
+  horarios: HorarioInput[],
+  now: Date = new Date(),
+): ProximidadHorario {
+  const arg = toArgentina(now);
+  const dia = arg.getUTCDay();
+  const minutosActuales = arg.getUTCHours() * 60 + arg.getUTCMinutes();
+
+  const paraCierre = minutosHastaCierre(horarios, dia, minutosActuales);
+  if (paraCierre !== null) {
+    return {
+      cierraPronto: paraCierre <= MINUTOS_CIERRA_PRONTO,
+      minutosParaCierre: paraCierre,
+      abrePronto: false,
+      minutosParaApertura: null,
+    };
+  }
+
+  const aperturasRestantes = horarios
+    .filter(
+      (h) =>
+        !h.cerrado &&
+        h.dia_semana === dia &&
+        parseHora(h.hora_apertura) > minutosActuales,
+    )
+    .map((h) => parseHora(h.hora_apertura) - minutosActuales)
+    .sort((a, b) => a - b);
+
+  const paraApertura = aperturasRestantes.length > 0 ? aperturasRestantes[0] : null;
+
+  return {
+    cierraPronto: false,
+    minutosParaCierre: null,
+    abrePronto: paraApertura !== null && paraApertura <= MINUTOS_ABRE_PRONTO,
+    minutosParaApertura: paraApertura,
+  };
+}
+
+/**
+ * Minutos hasta el cierre del turno activo, o null si está cerrado.
+ * Mismo orden de chequeo que `estadoConHorario`: turno de hoy (normal o cruzando
+ * medianoche) y turno del día anterior que cruza hacia la madrugada de hoy.
+ */
+function minutosHastaCierre(
+  horarios: HorarioInput[],
+  dia: number,
+  minutosActuales: number,
+): number | null {
+  for (const h of horarios) {
+    if (h.cerrado || h.dia_semana !== dia) continue;
+    const apertura = parseHora(h.hora_apertura);
+    const cierre = parseHora(h.hora_cierre);
+    const cruza = cruzaMedianoche(h.hora_apertura, h.hora_cierre, h.cruza_medianoche);
+    if (cruza) {
+      if (minutosActuales >= apertura) {
+        const cierreAbs = cierre <= apertura ? cierre + 1440 : cierre;
+        return cierreAbs - minutosActuales;
+      }
+    } else if (minutosActuales >= apertura && minutosActuales < cierre) {
+      return cierre - minutosActuales;
+    }
+  }
+
+  const diaAnterior = (dia + 6) % 7;
+  for (const h of horarios) {
+    if (h.cerrado || h.dia_semana !== diaAnterior) continue;
+    const cruza = cruzaMedianoche(h.hora_apertura, h.hora_cierre, h.cruza_medianoche);
+    if (!cruza) continue;
+    const cierre = parseHora(h.hora_cierre);
+    if (minutosActuales < cierre) return cierre - minutosActuales;
+  }
+
+  return null;
 }
 
 function formatHora(hora: string): string {
