@@ -81,6 +81,7 @@ haku/
 | 013 | [Light Mode (Tierra claro)](specs/013-light-mode/spec.md) | ✅ | [#15](https://github.com/Dilanp10/Morficat/issues/15) |
 | 014 | [Lanzamiento Público](specs/014-lanzamiento-publico/spec.md) | ⏳ | [#12](https://github.com/Dilanp10/Morficat/issues/12) |
 | 015 | [Roadmap v2+](specs/015-roadmap-v2/spec.md) | 📋 | [#13](https://github.com/Dilanp10/Morficat/issues/13) |
+| 016 | [Favoritos](specs/016-favoritos/spec.md) | ⏳ | [#17](https://github.com/Dilanp10/Morficat/issues/17) |
 
 ## Workflow para features nuevas
 
