@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { BadgeEstado } from "./BadgeEstado";
-import { estadoConHorario } from "@/lib/horarios";
+import { estadoConHorario, proximidadHorario } from "@/lib/horarios";
 import type { Horario } from "@/lib/types";
 
 type HorarioInput = Pick<
@@ -19,8 +19,20 @@ export function EstadoBadgeLive({ horarios }: { horarios: HorarioInput[] }) {
   }, []);
 
   const estado = estadoConHorario(horarios, now);
+  const prox = proximidadHorario(horarios, now);
+  const minutos = prox.cierraPronto
+    ? prox.minutosParaCierre
+    : prox.abrePronto
+      ? prox.minutosParaApertura
+      : null;
 
   return (
-    <BadgeEstado abierto={estado.abierto} detalleHorario={estado.detalle} />
+    <BadgeEstado
+      abierto={estado.abierto}
+      detalleHorario={estado.detalle}
+      cierraPronto={prox.cierraPronto}
+      abrePronto={prox.abrePronto}
+      minutos={minutos}
+    />
   );
 }

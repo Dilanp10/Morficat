@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { estaAbierto, estadoConHorario } from "./horarios";
+import { estaAbierto, estadoConHorario, proximidadHorario } from "./horarios";
 
 function arg(
   year: number,
@@ -341,6 +341,99 @@ describe("auto-detect cross-midnight (flag faltante)", () => {
     expect(estadoConHorario(horarios, viernes(23))).toEqual({
       abierto: true,
       detalle: "cierra a las 02:00",
+    });
+  });
+});
+
+describe("proximidadHorario", () => {
+  const normal = [
+    {
+      dia_semana: 1,
+      hora_apertura: "08:00",
+      hora_cierre: "22:00",
+      cerrado: false,
+      cruza_medianoche: false,
+    },
+  ];
+
+  it("abierto, cierra en 60 min: NO cierra pronto", () => {
+    const p = proximidadHorario(normal, lunes(21, 0));
+    expect(p.cierraPronto).toBe(false);
+    expect(p.minutosParaCierre).toBe(60);
+  });
+
+  it("abierto, cierra en 20 min: cierra pronto", () => {
+    const p = proximidadHorario(normal, lunes(21, 40));
+    expect(p.cierraPronto).toBe(true);
+    expect(p.minutosParaCierre).toBe(20);
+  });
+
+  it("abierto, cierra justo en 30 min: cierra pronto (umbral inclusivo)", () => {
+    const p = proximidadHorario(normal, lunes(21, 30));
+    expect(p.minutosParaCierre).toBe(30);
+    expect(p.cierraPronto).toBe(true);
+  });
+
+  it("cruza medianoche, antes de medianoche: minutos al cierre de madrugada", () => {
+    const horarios = [
+      {
+        dia_semana: 5,
+        hora_apertura: "20:00",
+        hora_cierre: "02:00",
+        cerrado: false,
+        cruza_medianoche: true,
+      },
+    ];
+    // viernes 23:40 → cierra 02:00 = 140 min
+    const p = proximidadHorario(horarios, viernes(23, 40));
+    expect(p.minutosParaCierre).toBe(140);
+    expect(p.cierraPronto).toBe(false);
+  });
+
+  it("cruza medianoche, madrugada: cierra pronto", () => {
+    const horarios = [
+      {
+        dia_semana: 5,
+        hora_apertura: "20:00",
+        hora_cierre: "02:00",
+        cerrado: false,
+        cruza_medianoche: true,
+      },
+    ];
+    // sábado 01:45 → 15 min para las 02:00 (turno del día anterior)
+    const p = proximidadHorario(horarios, sabado(1, 45));
+    expect(p.minutosParaCierre).toBe(15);
+    expect(p.cierraPronto).toBe(true);
+  });
+
+  it("cerrado, abre en 15 min: abre pronto", () => {
+    const p = proximidadHorario(normal, lunes(7, 45));
+    expect(p.abrePronto).toBe(true);
+    expect(p.minutosParaApertura).toBe(15);
+    expect(p.cierraPronto).toBe(false);
+  });
+
+  it("cerrado, abre en 2 horas: NO abre pronto", () => {
+    const p = proximidadHorario(normal, lunes(6, 0));
+    expect(p.abrePronto).toBe(false);
+    expect(p.minutosParaApertura).toBe(120);
+  });
+
+  it("cerrado todo el día: sin proximidad", () => {
+    const horarios = [
+      {
+        dia_semana: 2,
+        hora_apertura: "08:00",
+        hora_cierre: "22:00",
+        cerrado: false,
+        cruza_medianoche: false,
+      },
+    ];
+    expect(proximidadHorario(horarios, lunes(14))).toEqual({
+      cierraPronto: false,
+      minutosParaCierre: null,
+      abrePronto: false,
+      minutosParaApertura: null,
     });
   });
 });

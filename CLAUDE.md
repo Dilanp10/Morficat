@@ -82,6 +82,7 @@ haku/
 | 014 | [Lanzamiento Público](specs/014-lanzamiento-publico/spec.md) | ⏳ | [#12](https://github.com/Dilanp10/Morficat/issues/12) |
 | 015 | [Roadmap v2+](specs/015-roadmap-v2/spec.md) | 📋 | [#13](https://github.com/Dilanp10/Morficat/issues/13) |
 | 016 | [Favoritos](specs/016-favoritos/spec.md) | ⏳ | [#17](https://github.com/Dilanp10/Morficat/issues/17) |
+| 017 | [Cierra pronto / Abre pronto](specs/017-cierra-pronto/spec.md) | ⏳ | [#18](https://github.com/Dilanp10/Morficat/issues/18) |
 
 ## Workflow para features nuevas
 

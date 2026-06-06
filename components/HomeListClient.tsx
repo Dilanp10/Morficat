@@ -8,7 +8,7 @@ import { FiltrosChips } from "./FiltrosChips";
 import { FiltrosAvanzados } from "./FiltrosAvanzados";
 import { useFavoritos } from "./FavoritosProvider";
 import { calcularDistanciaKm } from "@/lib/distancia";
-import { estadoConHorario } from "@/lib/horarios";
+import { estadoConHorario, proximidadHorario } from "@/lib/horarios";
 import type { CategoriaPublic, LugarPublic } from "@/lib/lugares-public";
 
 type Coords = { lat: number; lng: number };
@@ -62,6 +62,12 @@ export function HomeListClient({
   const enriquecidos: Enriched[] = useMemo(() => {
     return lugares.map((l) => {
       const estado = estadoConHorario(l.horarios, now);
+      const prox = proximidadHorario(l.horarios, now);
+      const minutosEstado = prox.cierraPronto
+        ? prox.minutosParaCierre
+        : prox.abrePronto
+          ? prox.minutosParaApertura
+          : null;
       const distanciaKm = coords
         ? calcularDistanciaKm(coords.lat, coords.lng, l.lat, l.lng)
         : null;
@@ -84,6 +90,9 @@ export function HomeListClient({
           barrio: l.barrio,
           abierto: estado.abierto,
           detalleHorario: estado.detalle,
+          cierraPronto: prox.cierraPronto,
+          abrePronto: prox.abrePronto,
+          minutosEstado,
           distanciaKm,
           ratingPromedio,
           ratingCount,
