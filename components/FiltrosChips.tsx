@@ -1,11 +1,13 @@
 "use client";
 
-import { Sliders } from "lucide-react";
+import { Heart, Sliders } from "lucide-react";
 import type { CategoriaPublic } from "@/lib/lugares-public";
 
 export function FiltrosChips({
   soloAbiertos,
   onToggleAbiertos,
+  soloFavoritos,
+  onToggleFavoritos,
   categoriaSlug,
   onSelectCategoria,
   categorias,
@@ -14,6 +16,8 @@ export function FiltrosChips({
 }: {
   soloAbiertos: boolean;
   onToggleAbiertos: () => void;
+  soloFavoritos: boolean;
+  onToggleFavoritos: () => void;
   categoriaSlug: string | null;
   onSelectCategoria: (slug: string | null) => void;
   categorias: CategoriaPublic[];
@@ -30,6 +34,14 @@ export function FiltrosChips({
             }`}
           />
           Abierto ahora
+        </Chip>
+
+        <Chip active={soloFavoritos} onClick={onToggleFavoritos}>
+          <Heart
+            size={12}
+            style={{ fill: soloFavoritos ? "currentColor" : "none" }}
+          />
+          Favoritos
         </Chip>
 
         {categorias.map((c) => (

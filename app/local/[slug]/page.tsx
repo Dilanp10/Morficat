@@ -11,6 +11,7 @@ import {
   MessageCircle,
   Phone,
 } from "lucide-react";
+import { BotonFavorito } from "@/components/BotonFavorito";
 import { EstadoBadgeLive } from "@/components/EstadoBadgeLive";
 import { EstrellasDisplay } from "@/components/EstrellasDisplay";
 import { HorariosTable } from "@/components/HorariosTable";
@@ -104,7 +105,10 @@ export default async function LocalPage({
         >
           <ChevronLeft size={20} />
         </Link>
-        <ShareButton title={lugar.nombre} text={lugar.descripcion ?? ""} />
+        <div className="flex items-center gap-2">
+          <BotonFavorito lugarId={lugar.id} variant="floating" />
+          <ShareButton title={lugar.nombre} text={lugar.descripcion ?? ""} />
+        </div>
       </div>
 
       {/* ── Hero ── */}

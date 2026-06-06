@@ -6,6 +6,7 @@ import { LocalCard, type LocalCardData } from "./LocalCard";
 import { SearchBar } from "./SearchBar";
 import { FiltrosChips } from "./FiltrosChips";
 import { FiltrosAvanzados } from "./FiltrosAvanzados";
+import { useFavoritos } from "./FavoritosProvider";
 import { calcularDistanciaKm } from "@/lib/distancia";
 import { estadoConHorario } from "@/lib/horarios";
 import type { CategoriaPublic, LugarPublic } from "@/lib/lugares-public";
@@ -22,9 +23,11 @@ export function HomeListClient({
   categorias: CategoriaPublic[];
   autoFocusSearch?: boolean;
 }) {
+  const { esFavorito } = useFavoritos();
   const [coords, setCoords] = useState<Coords | null>(null);
   const [gpsState, setGpsState] = useState<GpsState>("loading");
   const [soloAbiertos, setSoloAbiertos] = useState(true);
+  const [soloFavoritos, setSoloFavoritos] = useState(false);
   const [categoriaSlug, setCategoriaSlug] = useState<string | null>(null);
   const [atributosOn, setAtributosOn] = useState<Set<string>>(new Set());
   const [filtrosAbiertos, setFiltrosAbiertos] = useState(false);
@@ -72,6 +75,7 @@ export function HomeListClient({
       return {
         lugar: l,
         card: {
+          lugarId: l.id,
           slug: l.slug,
           nombre: l.nombre,
           imagen_principal: l.imagen_principal,
@@ -93,6 +97,7 @@ export function HomeListClient({
     return enriquecidos
       .filter(({ lugar, card }) => {
         if (soloAbiertos && !card.abierto) return false;
+        if (soloFavoritos && !esFavorito(card.lugarId)) return false;
         if (categoriaSlug && lugar.categoria?.slug !== categoriaSlug)
           return false;
         if (atributosOn.size > 0) {
@@ -119,7 +124,15 @@ export function HomeListClient({
         if (ad !== null && bd !== null) return ad - bd;
         return a.card.nombre.localeCompare(b.card.nombre);
       });
-  }, [enriquecidos, soloAbiertos, categoriaSlug, atributosOn, query]);
+  }, [
+    enriquecidos,
+    soloAbiertos,
+    soloFavoritos,
+    esFavorito,
+    categoriaSlug,
+    atributosOn,
+    query,
+  ]);
 
   const totalAbiertos = enriquecidos.filter((e) => e.card.abierto).length;
   const sinResultados =
@@ -142,6 +155,8 @@ export function HomeListClient({
       <FiltrosChips
         soloAbiertos={soloAbiertos}
         onToggleAbiertos={() => setSoloAbiertos((v) => !v)}
+        soloFavoritos={soloFavoritos}
+        onToggleFavoritos={() => setSoloFavoritos((v) => !v)}
         categoriaSlug={categoriaSlug}
         onSelectCategoria={setCategoriaSlug}
         categorias={categorias}
@@ -181,9 +196,12 @@ export function HomeListClient({
       {sinResultados ? (
         <EmptyState
           soloAbiertos={soloAbiertos}
+          soloFavoritos={soloFavoritos}
           hasQuery={query.trim().length > 0}
+          onVerTodos={() => setSoloAbiertos(false)}
           onReset={() => {
             setSoloAbiertos(false);
+            setSoloFavoritos(false);
             setCategoriaSlug(null);
             setAtributosOn(new Set());
             setQuery("");
@@ -204,23 +222,40 @@ export function HomeListClient({
 
 function EmptyState({
   soloAbiertos,
+  soloFavoritos,
   hasQuery,
+  onVerTodos,
   onReset,
 }: {
   soloAbiertos: boolean;
+  soloFavoritos: boolean;
   hasQuery: boolean;
+  onVerTodos: () => void;
   onReset: () => void;
 }) {
+  // Caso "nada abierto ahora": el único filtro que estorba es 'Abierto ahora'.
+  // Damos una acción directa para verlos todos sin perder otros filtros.
+  const soloPorAbiertos = !hasQuery && !soloFavoritos && soloAbiertos;
+
   const titulo = hasQuery
     ? "No encontramos lugares con ese nombre."
-    : soloAbiertos
-      ? "No hay locales abiertos ahora."
-      : "Ningún lugar coincide con los filtros.";
+    : soloFavoritos
+      ? "Todavía no guardaste lugares."
+      : soloAbiertos
+        ? "Ahora no hay nada abierto."
+        : "Ningún lugar coincide con los filtros.";
   const sub = hasQuery
     ? "Probá con otra palabra o sacá los filtros."
-    : soloAbiertos
-      ? "Tocá 'Limpiar filtros' para ver todos."
-      : null;
+    : soloFavoritos
+      ? "Tocá el ♥ en cualquier local para guardarlo acá."
+      : soloPorAbiertos
+        ? "Pero podés ver todos los locales y sus horarios."
+        : null;
+
+  const accion = soloPorAbiertos
+    ? { label: "Ver todos los locales", onClick: onVerTodos }
+    : { label: "Limpiar filtros", onClick: onReset };
+
   return (
     <div className="py-16 text-center animate-fade-in-up">
       <p
@@ -236,11 +271,11 @@ function EmptyState({
       )}
       <button
         type="button"
-        onClick={onReset}
-        className="mt-6 rounded-button px-4 py-2 text-sm font-medium transition-colors"
+        onClick={accion.onClick}
+        className="mt-6 rounded-button px-4 py-2 text-sm font-medium transition-opacity hover:opacity-90"
         style={{ background: "var(--terra)", color: "#1B1612" }}
       >
-        Limpiar filtros
+        {accion.label}
       </button>
     </div>
   );
