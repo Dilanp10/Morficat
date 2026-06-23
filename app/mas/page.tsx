@@ -9,6 +9,7 @@ import {
   UserPlus,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { PushToggle } from "@/components/PushToggle";
 import { signOutAction } from "@/lib/auth-actions";
 import { getCurrentProfile } from "@/lib/supabase/server";
 
@@ -106,6 +107,14 @@ export default async function MasPage() {
           </div>
         )}
       </section>
+
+      {/* Notificaciones */}
+      {profile && (
+        <section className="mb-8">
+          <p className="text-section mb-3">— Notificaciones —</p>
+          <PushToggle />
+        </section>
+      )}
 
       {/* Apariencia */}
       <section className="mb-8">

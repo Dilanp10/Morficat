@@ -3,6 +3,7 @@ import { Instrument_Serif, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { BottomNav } from "@/components/BottomNav";
 import { FavoritosProvider } from "@/components/FavoritosProvider";
+import { ServiceWorkerInit } from "@/components/ServiceWorkerInit";
 import { SplashScreen } from "@/components/SplashScreen";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { WelcomeOverlay } from "@/components/WelcomeOverlay";
@@ -87,6 +88,7 @@ export default async function RootLayout({
             initialFavoritos={initialFavoritos}
             isAuthenticated={!!user}
           >
+            <ServiceWorkerInit />
             <SplashScreen />
             {children}
             <WelcomeOverlay isAuthenticated={!!user} />
