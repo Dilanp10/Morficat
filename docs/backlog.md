@@ -13,9 +13,9 @@
 
 ## 🟡 Mejoras de UX que se vienen pidiendo
 
-- [ ] Compartir un local copia URL legible (`/local/cafe-del-centro`) — verificar Web Share API en iOS
-- [ ] Mostrar próxima apertura cuando un local está cerrado (no solo "Cerrado")
-- [ ] Skeleton de cards mientras carga la primera vez
+- [x] Compartir un local con URL legible (`/local/cafe-del-centro`) + Web Share API — `ShareButton.tsx` (queda pendiente solo *verificar* en iOS Safari real, ver checklist lanzamiento)
+- [x] Mostrar próxima apertura cuando un local está cerrado — `estadoConHorario` muestra "Cerrado · abre a las…" (spec 017)
+- [x] Skeleton de cards mientras carga la primera vez — spec 019 (`loading.tsx` en Home y ficha)
 - [ ] Aviso si la app está cacheada (offline-ish)
 
 ## 🟢 Mejoras técnicas / deuda

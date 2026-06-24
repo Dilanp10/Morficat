@@ -84,6 +84,7 @@ haku/
 | 016 | [Favoritos](specs/016-favoritos/spec.md) | ✅ | [#17](https://github.com/Dilanp10/Morficat/issues/17) |
 | 017 | [Cierra pronto / Abre pronto](specs/017-cierra-pronto/spec.md) | ✅ | [#18](https://github.com/Dilanp10/Morficat/issues/18) |
 | 018 | [Notificaciones Push](specs/018-push-notificaciones/spec.md) | ⏳ | — |
+| 019 | [Skeletons de carga](specs/019-skeleton-carga/spec.md) | ✅ | — |
 
 ## Workflow para features nuevas
 
