@@ -266,7 +266,8 @@ function minutosParaApertura(
 
 // ─── handler ─────────────────────────────────────────────────────────────────
 Deno.serve(async (req) => {
-  const debug = new URL(req.url).searchParams.get("debug") === "1";
+  const url = new URL(req.url);
+  const debug = url.searchParams.get("debug") === "1";
   const json = (obj: unknown, status = 200) =>
     new Response(JSON.stringify(obj), {
       status,
